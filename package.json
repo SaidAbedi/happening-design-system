@@ -1,6 +1,6 @@
 {
   "name": "@saidabedi/design-system",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Platform-agnostic design tokens and theme adapters for React web and React Native",
   "author": "",
   "license": "MIT",
@@ -56,9 +56,15 @@
   },
   "typesVersions": {
     "*": {
-      "tokens": ["./dist/tokens/index.d.ts"],
-      "web": ["./dist/web/index.d.ts"],
-      "native": ["./dist/native/index.d.ts"]
+      "tokens": [
+        "./dist/tokens/index.d.ts"
+      ],
+      "web": [
+        "./dist/web/index.d.ts"
+      ],
+      "native": [
+        "./dist/native/index.d.ts"
+      ]
     }
   },
   "files": [
