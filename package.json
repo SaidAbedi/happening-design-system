@@ -1,0 +1,106 @@
+{
+  "name": "@my-scope/design-system",
+  "version": "0.1.0",
+  "description": "Platform-agnostic design tokens and theme adapters for React web and React Native",
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./tokens": {
+      "import": {
+        "types": "./dist/tokens/index.d.ts",
+        "default": "./dist/tokens/index.js"
+      },
+      "require": {
+        "types": "./dist/tokens/index.d.cts",
+        "default": "./dist/tokens/index.cjs"
+      }
+    },
+    "./web": {
+      "import": {
+        "types": "./dist/web/index.d.ts",
+        "default": "./dist/web/index.js"
+      },
+      "require": {
+        "types": "./dist/web/index.d.cts",
+        "default": "./dist/web/index.cjs"
+      }
+    },
+    "./native": {
+      "import": {
+        "types": "./dist/native/index.d.ts",
+        "default": "./dist/native/index.js"
+      },
+      "require": {
+        "types": "./dist/native/index.d.cts",
+        "default": "./dist/native/index.cjs"
+      }
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "tokens": ["./dist/tokens/index.d.ts"],
+      "web": ["./dist/web/index.d.ts"],
+      "native": ["./dist/native/index.d.ts"]
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-native": ">=0.70.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    }
+  },
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "react",
+    "react-native",
+    "theme",
+    "tokens",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
