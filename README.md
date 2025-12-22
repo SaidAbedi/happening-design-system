@@ -1,4 +1,4 @@
-# @my-scope/design-system
+# @saidabedi/design-system
 
 Platform-agnostic design tokens and theme adapters for React web and React Native applications.
 
@@ -13,17 +13,17 @@ Platform-agnostic design tokens and theme adapters for React web and React Nativ
 ## Installation
 
 ```bash
-npm install @my-scope/design-system
+npm install @saidabedi/design-system
 # or
-yarn add @my-scope/design-system
+yarn add @saidabedi/design-system
 # or
-pnpm add @my-scope/design-system
+pnpm add @saidabedi/design-system
 ```
 
 ## Package Structure
 
 ```
-@my-scope/design-system
+@saidabedi/design-system
 ├── /tokens  → Platform-agnostic design tokens
 ├── /web     → Web theme adapter (rem units, CSS variables)
 └── /native  → React Native theme adapter (numeric values)
@@ -34,7 +34,7 @@ pnpm add @my-scope/design-system
 ### React Web App
 
 ```tsx
-import { createWebTheme, generateCSSVariablesString } from '@my-scope/design-system/web';
+import { createWebTheme, generateCSSVariablesString } from '@saidabedi/design-system/web';
 
 // Create theme
 const theme = createWebTheme({ mode: 'light' });
@@ -65,7 +65,7 @@ const cssVariables = generateCSSVariablesString(theme);
 ### React Native App
 
 ```tsx
-import { createNativeTheme } from '@my-scope/design-system/native';
+import { createNativeTheme } from '@saidabedi/design-system/native';
 import { Platform, StyleSheet, View, Text } from 'react-native';
 
 // Create theme with platform detection
@@ -105,7 +105,7 @@ function Card() {
 For shared logic or custom adapters, import tokens directly:
 
 ```tsx
-import { colors, spacing, textStyles } from '@my-scope/design-system/tokens';
+import { colors, spacing, textStyles } from '@saidabedi/design-system/tokens';
 
 // Access semantic values
 console.log(colors.brand.primary);  // '#2563eb'
@@ -119,10 +119,10 @@ console.log(textStyles.body.medium.fontSize); // 16
 
 | Import Path | Description |
 |-------------|-------------|
-| `@my-scope/design-system` | Root export (tokens only, safe for any environment) |
-| `@my-scope/design-system/tokens` | Platform-agnostic design tokens |
-| `@my-scope/design-system/web` | Web theme adapter |
-| `@my-scope/design-system/native` | React Native theme adapter |
+| `@saidabedi/design-system` | Root export (tokens only, safe for any environment) |
+| `@saidabedi/design-system/tokens` | Platform-agnostic design tokens |
+| `@saidabedi/design-system/web` | Web theme adapter |
+| `@saidabedi/design-system/native` | React Native theme adapter |
 
 ### Tokens
 
@@ -181,7 +181,7 @@ radii.full  // 9999 (pill shape)
 ### Web Theme
 
 ```ts
-import { createWebTheme, generateCSSVariables } from '@my-scope/design-system/web';
+import { createWebTheme, generateCSSVariables } from '@saidabedi/design-system/web';
 
 // Create theme
 const theme = createWebTheme({ mode: 'light' }); // or 'dark'
@@ -202,7 +202,7 @@ const cssString = generateCSSVariablesString(theme, ':root');
 ### Native Theme
 
 ```ts
-import { createNativeTheme, shadows } from '@my-scope/design-system/native';
+import { createNativeTheme, shadows } from '@saidabedi/design-system/native';
 
 // Create theme
 const theme = createNativeTheme({
@@ -230,7 +230,7 @@ shadows.md // { shadowColor, shadowOffset, shadowOpacity, shadowRadius, elevatio
 ```tsx
 // theme-context.tsx
 import { createContext, useContext, ReactNode, useState } from 'react';
-import { createWebTheme, WebTheme } from '@my-scope/design-system/web';
+import { createWebTheme, WebTheme } from '@saidabedi/design-system/web';
 import { ThemeProvider as SCThemeProvider } from 'styled-components';
 
 type ThemeMode = 'light' | 'dark';
@@ -268,7 +268,7 @@ export const useThemeMode = () => {
 // theme-context.tsx
 import { createContext, useContext, ReactNode, useState } from 'react';
 import { Platform, useColorScheme } from 'react-native';
-import { createNativeTheme, NativeTheme } from '@my-scope/design-system/native';
+import { createNativeTheme, NativeTheme } from '@saidabedi/design-system/native';
 
 const ThemeContext = createContext<NativeTheme | null>(null);
 
