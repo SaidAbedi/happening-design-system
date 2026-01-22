@@ -4,6 +4,7 @@ import {
   type IconSize,
   type IconGradient,
   type IconGradientName,
+  type IconGradientMode,
   getIconSize,
   getIconColor,
   getGradientDef,
@@ -31,6 +32,9 @@ const getUniqueGradientId = () => `iconGradient_${++gradientIdCounter}`;
  * <Icon name="heart" gradient="heart" size="xl" />
  * <Icon name="search" gradient="teal" />
  *
+ * // Gradient stroke only (border)
+ * <Icon name="heart" gradient="terracotta" gradientMode="stroke" size="xl" />
+ *
  * // Gradient fill (custom)
  * <Icon name="sunny" gradient={{ start: '#FFD700', end: '#FFA500' }} />
  * ```
@@ -40,6 +44,7 @@ export const Icon = ({
   size = 'md',
   color,
   gradient,
+  gradientMode = 'both',
   mode = 'light',
   className,
   accessibilityLabel,
@@ -56,6 +61,7 @@ export const Icon = ({
       color={resolvedColor}
       gradient={resolvedGradient}
       gradientId={gradientId}
+      gradientMode={gradientMode}
       className={className}
       accessibilityLabel={accessibilityLabel || name}
     />
@@ -63,7 +69,7 @@ export const Icon = ({
 };
 
 // Re-export types
-export type { IconProps, IconName, IconSize, IconGradient, IconGradientName };
+export type { IconProps, IconName, IconSize, IconGradient, IconGradientName, IconGradientMode };
 
 // Re-export individual icon components for direct use
 export {

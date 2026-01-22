@@ -185,6 +185,38 @@ const IconShowcase = ({ mode }: { mode: 'light' | 'dark' }) => {
         </div>
       </section>
 
+      <section style={{ marginBottom: '48px' }}>
+        <h3 style={{ color: textColor, marginBottom: '24px', fontFamily: fontFamilies.sans, opacity: 0.7 }}>
+          Gradient Borders (Stroke Only)
+        </h3>
+        <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="heart" size={48} gradient="heart" gradientMode="stroke" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>heart</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="calendar" size={48} gradient="terracotta" gradientMode="stroke" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>terracotta</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="search" size={48} gradient="teal" gradientMode="stroke" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>teal</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="moon" size={48} gradient="ocean" gradientMode="stroke" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>ocean</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="sunny" size={48} gradient="warning" gradientMode="stroke" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>warning</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="close-circle" size={48} gradient="sunset" gradientMode="stroke" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>sunset</span>
+          </div>
+        </div>
+      </section>
+
       <section>
         <h3 style={{ color: textColor, marginBottom: '24px', fontFamily: fontFamilies.sans, opacity: 0.7 }}>
           Neumorphic Icon Buttons

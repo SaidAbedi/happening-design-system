@@ -23,6 +23,8 @@ export interface IconGradient {
   angle?: number;
 }
 
+export type IconGradientMode = 'fill' | 'stroke' | 'both';
+
 export interface IconProps {
   /** Icon name */
   name: IconName;
@@ -32,6 +34,8 @@ export interface IconProps {
   color?: string;
   /** Gradient fill - use preset name or custom {start, end} */
   gradient?: IconGradientName | IconGradient;
+  /** How the gradient is applied: 'fill' (solid), 'stroke' (border only), or 'both' */
+  gradientMode?: IconGradientMode;
   /** Color mode for default colors */
   mode?: 'light' | 'dark';
   /** Whether the icon should have a filled style (where applicable) */
@@ -71,6 +75,8 @@ export interface IconSvgProps {
   color: string;
   gradient?: IconGradient;
   gradientId?: string;
+  /** How the gradient is applied: 'fill', 'stroke', or 'both' (default: 'both') */
+  gradientMode?: IconGradientMode;
   children: ReactNode;
   accessibilityLabel?: string;
   className?: string;

@@ -16,6 +16,7 @@ export {
   type IconSize,
   type IconGradient,
   type IconGradientName,
+  type IconGradientMode,
   iconGradients,
   // Individual icons
   CalendarIcon,

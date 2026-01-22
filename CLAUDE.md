@@ -65,6 +65,7 @@ import { createWebTheme } from '@saidabedi/design-system/web'
 | `size` | `'sm'` \| `'md'` \| `'lg'` \| `'xl'` \| `number` | `'md'` | Size (16/20/24/32px) |
 | `color` | `string` | token `icon.primary` | Icon color (solid) |
 | `gradient` | `IconGradientName` \| `{start, end}` | - | Gradient fill |
+| `gradientMode` | `'fill'` \| `'stroke'` \| `'both'` | `'both'` | How gradient applies |
 | `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
 
 **Available icons:** `calendar`, `search`, `heart`, `heart-outline`, `close-circle`, `sunny`, `moon`, `phone-portrait`, `options`
@@ -77,6 +78,9 @@ import { createWebTheme } from '@saidabedi/design-system/web'
 
 // Gradient fill (preset)
 <Icon name="heart" gradient="heart" size="xl" />
+
+// Gradient stroke only (border)
+<Icon name="heart" gradient="terracotta" gradientMode="stroke" size="xl" />
 
 // Custom gradient
 <Icon name="sunny" gradient={{ start: '#FFD700', end: '#FFA500' }} />
