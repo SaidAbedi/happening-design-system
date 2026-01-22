@@ -35,7 +35,7 @@ export default defineConfig({
   treeshake: true,
 
   // External dependencies (don't bundle)
-  external: ['react', 'react-native'],
+  external: ['react', 'react-native', 'react-native-svg'],
 
   // Output directory
   outDir: 'dist',

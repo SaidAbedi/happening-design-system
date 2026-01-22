@@ -6,6 +6,11 @@ A neumorphic design system for React Native with Mediterranean warmth (Terracott
 
 ```bash
 npm install @saidabedi/design-system
+
+# For icons (required for Icon component)
+npx expo install react-native-svg
+# or
+npm install react-native-svg
 ```
 
 ## Usage (React Native)
@@ -16,12 +21,12 @@ import {
   NeumorphicView,
   Card,
   Button,
+  Icon,
   colors,
   colorsDark,
   spacing,
   radii,
 } from '@saidabedi/design-system/native'
-import { Ionicons } from '@expo/vector-icons'
 
 // Theme-aware colors
 const c = isDark ? colorsDark : colors
@@ -121,6 +126,41 @@ import { Button } from '@saidabedi/design-system/native'
 | `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
 | `disabled` | `boolean` | `false` | Disabled state |
 
+### Icon
+
+Custom SVG icons with gradient support using react-native-svg.
+
+```tsx
+import { Icon } from '@saidabedi/design-system/native'
+
+// Basic usage
+<Icon name="calendar" size="lg" />
+
+// With gradient fill
+<Icon name="heart" gradient="brand" />
+
+// With gradient stroke only (border)
+<Icon name="heart-outline" gradient="brand" gradientMode="stroke" />
+
+// Custom color
+<Icon name="search" color="#C4756A" />
+
+// Dark mode
+<Icon name="moon" mode="dark" />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `IconName` | required | Icon name |
+| `size` | `'sm'` \| `'md'` \| `'lg'` \| `'xl'` \| `number` | `'md'` | Size (16/20/24/32) |
+| `color` | `string` | text.primary | Icon color |
+| `gradient` | `'brand'` \| `'sunset'` \| `'ocean'` \| `IconGradient` | - | Gradient fill |
+| `gradientMode` | `'fill'` \| `'stroke'` \| `'both'` | `'both'` | How gradient applies |
+| `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
+
+**Available Icons:**
+`calendar`, `search`, `heart`, `heart-outline`, `close-circle`, `sunny`, `moon`, `phone-portrait`, `options`
+
 ---
 
 ## Common Patterns
@@ -128,14 +168,14 @@ import { Button } from '@saidabedi/design-system/native'
 ### Selected vs Unselected States
 
 ```tsx
-// Selected: cut surface + filled icon
+// Selected: cut surface + gradient filled icon
 <NeumorphicView variant="cut">
-  <Ionicons name="calendar" size={24} color={c.brand.primary} />
+  <Icon name="calendar" size="lg" gradient="brand" />
 </NeumorphicView>
 
 // Unselected: raised surface + outline icon
 <NeumorphicView variant="raised">
-  <Ionicons name="calendar-outline" size={24} color={c.icon.secondary} />
+  <Icon name="calendar" size="lg" gradient="brand" gradientMode="stroke" />
 </NeumorphicView>
 ```
 
@@ -148,10 +188,12 @@ import { Button } from '@saidabedi/design-system/native'
   mode={isDark ? 'dark' : 'light'}
   onPress={() => selectEvent(event.id)}
 >
-  <Ionicons
-    name={isSelected ? "calendar" : "calendar-outline"}
-    size={24}
-    color={isSelected ? c.brand.primary : c.icon.secondary}
+  <Icon
+    name="calendar"
+    size="lg"
+    gradient="brand"
+    gradientMode={isSelected ? 'fill' : 'stroke'}
+    mode={isDark ? 'dark' : 'light'}
   />
   <Text style={{ color: c.text.primary }}>{event.title}</Text>
 </Card>
@@ -283,15 +325,18 @@ const bgColor = isDark ? '#1C1917' : '#FDF8F4'
 
 ---
 
-## Icon Mapping (Ionicons)
+## Gradients
 
-| Design System | Ionicons (outline) | Ionicons (filled) |
-|---------------|-------------------|-------------------|
-| calendar | calendar-outline | calendar |
-| search | search-outline | search |
-| heart | heart-outline | heart |
-| close-circle | close-circle-outline | close-circle |
-| sunny | sunny-outline | sunny |
-| moon | moon-outline | moon |
-| phone-portrait | phone-portrait-outline | phone-portrait |
-| options | options-outline | options |
+Built-in gradient presets for icons and components:
+
+```tsx
+import { iconGradients } from '@saidabedi/design-system/native'
+
+// Preset gradients
+iconGradients.brand     // { start: '#C4756A', end: '#5A9A9A' }  - Terracotta to Teal
+iconGradients.sunset    // { start: '#C4756A', end: '#D4A574' }  - Terracotta to Amber
+iconGradients.ocean     // { start: '#5A9A9A', end: '#4A8A8A' }  - Teal shades
+
+// Custom gradient
+<Icon name="heart" gradient={{ start: '#FF6B6B', end: '#4ECDC4' }} />
+```

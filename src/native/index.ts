@@ -54,5 +54,35 @@ export {
   type ButtonSize,
 } from './Button';
 
+// Icon components (requires react-native-svg)
+export {
+  Icon,
+  CalendarIcon,
+  SearchIcon,
+  HeartOutlineIcon,
+  HeartFilledIcon,
+  CloseCircleIcon,
+  SunnyIcon,
+  MoonIcon,
+  PhonePortraitIcon,
+  OptionsIcon,
+  type IconProps,
+} from './icons';
+
+export {
+  IconSvg,
+  getIconSize,
+  getIconColor,
+  getGradientDef,
+  getGradientCoords,
+  iconGradients,
+  type IconName,
+  type IconSize,
+  type IconGradient,
+  type IconGradientName,
+  type IconGradientMode,
+  type IconSvgProps,
+} from './Icon';
+
 // Re-export all tokens for convenience
 export * from '../tokens';
