@@ -1,5 +1,5 @@
 /**
- * Native Theme Adapter
+ * Native Theme Adapter - ValidAI Neumorphic Design System
  *
  * Transforms platform-agnostic tokens into React Native-friendly theme objects.
  * Uses numeric values (density-independent pixels) and platform font mappings.
@@ -16,6 +16,18 @@ import {
   textStyles,
   radii,
   radiiSemantics,
+  shadowsLight,
+  shadowsDark,
+  shadowValues,
+  shadowColors,
+  gradientsLight,
+  gradientsDark,
+  accentGradients,
+  durations,
+  nativeAnimations,
+  stagger,
+  zIndex,
+  zIndexSemantics,
   type Colors,
   type ColorsDark,
 } from '../tokens';
@@ -264,6 +276,22 @@ export interface NativeTheme {
   };
   radii: typeof radii;
   radiiSemantics: typeof radiiSemantics;
+  shadows: {
+    css: typeof shadowsLight | typeof shadowsDark;
+    values: typeof shadowValues;
+    colors: typeof shadowColors;
+  };
+  gradients: {
+    backgrounds: typeof gradientsLight | typeof gradientsDark;
+    accent: typeof accentGradients;
+  };
+  motion: {
+    durations: typeof durations;
+    animations: typeof nativeAnimations;
+    stagger: typeof stagger;
+  };
+  zIndex: typeof zIndex;
+  zIndexSemantics: typeof zIndexSemantics;
 }
 
 /**
@@ -271,7 +299,7 @@ export interface NativeTheme {
  *
  * @example
  * ```tsx
- * import { createNativeTheme } from '@my-scope/design-system/native';
+ * import { createNativeTheme } from '@saidabedi/design-system/native';
  * import { Platform } from 'react-native';
  *
  * const theme = createNativeTheme({
@@ -290,14 +318,21 @@ export interface NativeTheme {
  *     ...theme.typography.textStyles.heading.h1,
  *     color: theme.colors.text.primary,
  *   },
+ *   // Neumorphic card example
+ *   card: {
+ *     backgroundColor: theme.colors.surface.raised,
+ *     borderRadius: theme.radii.boolean,
+ *     ...shadows.md,
+ *   },
  * });
  * ```
  */
 export function createNativeTheme(options: NativeThemeOptions = {}): NativeTheme {
   const { mode = 'light', platform = 'ios' } = options;
+  const isDark = mode === 'dark';
 
   return {
-    colors: mode === 'dark' ? colorsDark : colors,
+    colors: isDark ? colorsDark : colors,
     spacing,
     spacingSemantics,
     typography: {
@@ -310,6 +345,22 @@ export function createNativeTheme(options: NativeThemeOptions = {}): NativeTheme
     },
     radii,
     radiiSemantics,
+    shadows: {
+      css: isDark ? shadowsDark : shadowsLight,
+      values: shadowValues,
+      colors: shadowColors,
+    },
+    gradients: {
+      backgrounds: isDark ? gradientsDark : gradientsLight,
+      accent: accentGradients,
+    },
+    motion: {
+      durations,
+      animations: nativeAnimations,
+      stagger,
+    },
+    zIndex,
+    zIndexSemantics,
   };
 }
 
@@ -346,19 +397,23 @@ export function createResponsiveSpacing(scale: number = 1) {
 /**
  * Utility to create shadow styles for React Native
  * Provides cross-platform shadow implementation
+ *
+ * Note: React Native doesn't support neumorphic dual shadows natively.
+ * This creates a single shadow approximation. For true neumorphic effects,
+ * consider using react-native-neomorph-shadows or similar libraries.
  */
 export function createShadow(
   elevation: number,
-  color: string = 'rgba(0, 0, 0, 0.1)'
+  color: string = 'rgba(180, 165, 155, 0.4)'
 ) {
   // iOS shadow
   const iosShadow = {
     shadowColor: color,
     shadowOffset: {
-      width: 0,
+      width: Math.round(elevation / 2),
       height: Math.round(elevation / 2),
     },
-    shadowOpacity: 0.15 + elevation * 0.02,
+    shadowOpacity: 0.25 + elevation * 0.02,
     shadowRadius: elevation,
   };
 
@@ -377,13 +432,55 @@ export function createShadow(
 }
 
 /**
- * Pre-defined shadow elevations
+ * Create neumorphic shadow for light mode
+ * Uses warm cream light color and warm stone dark color
+ */
+export function createNeumorphicShadow(
+  size: 'sm' | 'md' | 'mass' = 'md',
+  mode: 'light' | 'dark' = 'light'
+) {
+  const sizes = {
+    sm: { offset: 4, blur: 8, elevation: 3 },
+    md: { offset: 8, blur: 16, elevation: 6 },
+    mass: { offset: 16, blur: 32, elevation: 12 },
+  };
+
+  const { offset, blur, elevation } = sizes[size];
+
+  const darkColor = mode === 'light'
+    ? 'rgba(180, 165, 155, 0.4)'
+    : 'rgba(10, 8, 6, 0.7)';
+
+  return {
+    // iOS (approximation - single shadow)
+    shadowColor: darkColor,
+    shadowOffset: { width: offset, height: offset },
+    shadowOpacity: 1,
+    shadowRadius: blur,
+    // Android
+    elevation,
+  };
+}
+
+/**
+ * Pre-defined shadow elevations (neumorphic-inspired)
  */
 export const shadows = {
   none: createShadow(0),
-  sm: createShadow(2),
-  md: createShadow(4),
-  lg: createShadow(8),
-  xl: createShadow(12),
-  '2xl': createShadow(24),
+  sm: createShadow(4, 'rgba(180, 165, 155, 0.4)'),
+  md: createShadow(8, 'rgba(180, 165, 155, 0.4)'),
+  lg: createShadow(12, 'rgba(180, 165, 155, 0.4)'),
+  xl: createShadow(16, 'rgba(180, 165, 155, 0.4)'),
+  '2xl': createShadow(24, 'rgba(180, 165, 155, 0.4)'),
+  // Neumorphic presets
+  neumorphic: {
+    sm: createNeumorphicShadow('sm', 'light'),
+    md: createNeumorphicShadow('md', 'light'),
+    mass: createNeumorphicShadow('mass', 'light'),
+  },
+  neumorphicDark: {
+    sm: createNeumorphicShadow('sm', 'dark'),
+    md: createNeumorphicShadow('md', 'dark'),
+    mass: createNeumorphicShadow('mass', 'dark'),
+  },
 } as const;

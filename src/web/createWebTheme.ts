@@ -1,5 +1,5 @@
 /**
- * Web Theme Adapter
+ * Web Theme Adapter - ValidAI Neumorphic Design System
  *
  * Transforms platform-agnostic tokens into web-friendly theme objects.
  * Converts pixel values to rem, provides CSS custom property generation, etc.
@@ -18,8 +18,26 @@ import {
   textStyles,
   radii,
   radiiSemantics,
+  shadowsLight,
+  shadowsDark,
+  shadowValues,
+  shadowColors,
+  gradientsLight,
+  gradientsDark,
+  meshGradients,
+  overlays,
+  accentGradients,
+  radialGradients,
+  dividerGradients,
+  durationsCSS,
+  easings,
+  transitions,
+  zIndex,
+  zIndexSemantics,
   type Colors,
   type ColorsDark,
+  type ShadowsLight,
+  type ShadowsDark,
 } from '../tokens';
 
 /** Base font size for rem calculations (browser default) */
@@ -195,6 +213,24 @@ export interface WebTheme {
   };
   radii: ReturnType<typeof createWebRadii<typeof radii>>;
   radiiSemantics: ReturnType<typeof createWebRadii<typeof radiiSemantics>>;
+  shadows: ShadowsLight | ShadowsDark;
+  shadowValues: typeof shadowValues;
+  shadowColors: typeof shadowColors;
+  gradients: {
+    backgrounds: typeof gradientsLight | typeof gradientsDark;
+    mesh: typeof meshGradients;
+    overlays: typeof overlays;
+    accent: typeof accentGradients;
+    radial: typeof radialGradients;
+    divider: typeof dividerGradients;
+  };
+  motion: {
+    durations: typeof durationsCSS;
+    easings: typeof easings;
+    transitions: typeof transitions;
+  };
+  zIndex: typeof zIndex;
+  zIndexSemantics: typeof zIndexSemantics;
 }
 
 /**
@@ -202,7 +238,7 @@ export interface WebTheme {
  *
  * @example
  * ```tsx
- * import { createWebTheme } from '@my-scope/design-system/web';
+ * import { createWebTheme } from '@saidabedi/design-system/web';
  *
  * const theme = createWebTheme({ mode: 'light' });
  *
@@ -211,11 +247,22 @@ export interface WebTheme {
  *   background: ${theme.colors.brand.primary};
  *   padding: ${theme.spacing.sm} ${theme.spacing.lg};
  *   border-radius: ${theme.radii.md};
+ *   box-shadow: ${theme.shadows.md};
+ *   transition: ${theme.motion.transitions.button};
+ *
+ *   &:hover {
+ *     box-shadow: ${theme.shadows.glowSubtle};
+ *   }
+ *
+ *   &:active {
+ *     box-shadow: ${theme.shadows.pressed};
+ *   }
  * `;
  * ```
  */
 export function createWebTheme(options: WebThemeOptions = {}): WebTheme {
   const { mode = 'light' } = options;
+  const isDark = mode === 'dark';
 
   const webLetterSpacings = Object.fromEntries(
     Object.entries(letterSpacings).map(([key, value]) => [
@@ -225,7 +272,7 @@ export function createWebTheme(options: WebThemeOptions = {}): WebTheme {
   ) as { [K in keyof typeof letterSpacings]: string };
 
   return {
-    colors: mode === 'dark' ? colorsDark : colors,
+    colors: isDark ? colorsDark : colors,
     spacing: createWebSpacing(spacing),
     spacingSemantics: createWebSpacingSemantics(),
     typography: {
@@ -238,6 +285,24 @@ export function createWebTheme(options: WebThemeOptions = {}): WebTheme {
     },
     radii: createWebRadii(radii),
     radiiSemantics: createWebRadii(radiiSemantics),
+    shadows: isDark ? shadowsDark : shadowsLight,
+    shadowValues,
+    shadowColors,
+    gradients: {
+      backgrounds: isDark ? gradientsDark : gradientsLight,
+      mesh: meshGradients,
+      overlays,
+      accent: accentGradients,
+      radial: radialGradients,
+      divider: dividerGradients,
+    },
+    motion: {
+      durations: durationsCSS,
+      easings,
+      transitions,
+    },
+    zIndex,
+    zIndexSemantics,
   };
 }
 
@@ -248,7 +313,7 @@ export function createWebTheme(options: WebThemeOptions = {}): WebTheme {
  * @example
  * ```ts
  * const cssVars = generateCSSVariables(createWebTheme());
- * // Returns: { '--color-brand-primary': '#2563eb', ... }
+ * // Returns: { '--color-brand-primary': '#C4756A', '--shadow-md': '...', ... }
  * ```
  */
 export function generateCSSVariables(
@@ -271,13 +336,31 @@ export function generateCSSVariables(
     }
   };
 
+  // Colors
   flatten({ color: theme.colors });
+
+  // Spacing
   flatten({ spacing: theme.spacing });
+
+  // Radii
   flatten({ radius: theme.radii });
+
+  // Typography
   flatten({ font: theme.typography.fonts });
   flatten({ 'font-size': theme.typography.sizes });
   flatten({ 'font-weight': theme.typography.weights });
   flatten({ 'line-height': theme.typography.lineHeights });
+
+  // Shadows (neumorphic)
+  flatten({ shadow: theme.shadows });
+
+  // Motion
+  flatten({ duration: theme.motion.durations });
+  flatten({ easing: theme.motion.easings });
+  flatten({ transition: theme.motion.transitions });
+
+  // Z-Index
+  flatten({ 'z-index': theme.zIndex });
 
   return vars;
 }

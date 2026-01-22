@@ -1,8 +1,8 @@
 /**
- * Color Tokens - Option A: Warm Terracotta + Teal
+ * Color Tokens - ValidAI Neumorphic Design System
  *
- * Soft earth tones for millennial + family audiences.
- * Cozy, organic, Mediterranean-inspired warmth.
+ * Boolean Surface UI / Neumorphic Design System with Mediterranean warmth.
+ * Terracotta + Teal palette with soft shadows and refined interactions.
  *
  * These are platform-agnostic semantic color tokens.
  * Consumers should never use primitive values directly.
@@ -11,32 +11,32 @@
 
 // Primitive palette (internal only - not exported)
 const palette = {
-  // Terracotta / Clay (Primary)
-  terracotta50: '#FDF5F2',
+  // Terracotta / Clay (Primary) - Updated for neumorphic design
+  terracotta50: '#FDF8F4',
   terracotta100: '#FAE8E1',
   terracotta200: '#F5CFC2',
-  terracotta300: '#E8A890',
-  terracotta400: '#D4896B',
-  terracotta500: '#C4704B',
-  terracotta600: '#A85D3D',
-  terracotta700: '#8C4D33',
-  terracotta800: '#73402B',
-  terracotta900: '#5F3625',
+  terracotta300: '#E4A494',
+  terracotta400: '#D4856A',
+  terracotta500: '#C4756A',
+  terracotta600: '#A65A50',
+  terracotta700: '#8A4A42',
+  terracotta800: '#6E3A34',
+  terracotta900: '#522A26',
 
-  // Warm Teal (Accent)
+  // Warm Teal (Secondary Accent) - Updated values
   teal50: '#F0F7F7',
   teal100: '#DCE9E9',
   teal200: '#B8D4D4',
   teal300: '#8EBABA',
-  teal400: '#6B9E9E',
-  teal500: '#4A7C7C',
-  teal600: '#3D6666',
-  teal700: '#335555',
+  teal400: '#6AACAC',
+  teal500: '#5A9A9A',
+  teal600: '#4A8080',
+  teal700: '#3D6666',
   teal800: '#2A4545',
   teal900: '#233A3A',
 
   // Warm Stone (Neutrals)
-  stone50: '#FAF9F7',
+  stone50: '#FAF5F0',
   stone100: '#F5F3F0',
   stone200: '#E7E5E4',
   stone300: '#D6D3D1',
@@ -54,6 +54,17 @@ const palette = {
   cream300: '#F5EDE5',
   cream400: '#EBE0D5',
 
+  // Mediterranean palette additions
+  mediterranean: {
+    cream: '#FDF8F4',
+    peach: '#FAE8E1',
+    sand: '#F5EDE5',
+    teal: '#DCE9E9',
+    tealDeep: '#B8D4D4',
+    warmBlack: '#1C1917',
+    warmDark: '#292524',
+  },
+
   // Sage Green (Success)
   sage50: '#F4F7F4',
   sage100: '#E4EBE4',
@@ -66,13 +77,13 @@ const palette = {
   sage800: '#3A4D3A',
   sage900: '#303F30',
 
-  // Amber / Honey (Warning)
+  // Amber / Honey (Warning) - Updated for design system
   amber50: '#FFFBEB',
   amber100: '#FEF3C7',
   amber200: '#FDE68A',
   amber300: '#FCD34D',
-  amber400: '#FBBF24',
-  amber500: '#D4A04A',
+  amber400: '#E4B584',
+  amber500: '#D4A574',
   amber600: '#B8860B',
   amber700: '#92400E',
   amber800: '#78350F',
@@ -89,6 +100,22 @@ const palette = {
   brick700: '#8C3A32',
   brick800: '#73312A',
   brick900: '#5F2A24',
+
+  // Text colors for light mode
+  textLight: {
+    primary: '#2D2420',
+    secondary: '#5C4D45',
+    muted: '#8A7A70',
+    disabled: '#B8A8A0',
+  },
+
+  // Text colors for dark mode
+  textDark: {
+    primary: '#FAF5F0',
+    secondary: '#C4B8B0',
+    muted: '#9A8A80',
+    disabled: '#5A4A40',
+  },
 
   // Pure
   white: '#FFFFFF',
@@ -121,11 +148,13 @@ export const colors = {
     foreground: palette.white,
     muted: palette.teal100,
     mutedForeground: palette.teal700,
+    // Terracotta accent alias
+    terracotta: palette.terracotta500,
   },
 
-  // Background
+  // Background (neumorphic-friendly)
   background: {
-    primary: palette.cream100,
+    primary: palette.cream100, // #FDF8F4 warm cream
     secondary: palette.cream200,
     tertiary: palette.cream300,
     inverse: palette.stone900,
@@ -133,21 +162,27 @@ export const colors = {
     accent: palette.teal500,
   },
 
-  // Surface (cards, modals, popovers)
+  // Surface (neumorphic surfaces)
   surface: {
+    // Legacy mappings
     primary: palette.white,
     secondary: palette.cream100,
     elevated: palette.white,
-    overlay: 'rgba(28, 25, 23, 0.5)',
+    overlay: 'rgba(0, 0, 0, 0.3)',
     muted: palette.stone100,
+    // Neumorphic surface tokens
+    base: palette.cream100, // #FDF8F4 - Default surface
+    raised: palette.white, // #FFFFFF - Elevated elements
+    cut: palette.cream300, // #F5EDE5 - Inset/pressed surfaces
   },
 
-  // Text
+  // Text (neumorphic design system)
   text: {
-    primary: palette.stone700,
-    secondary: palette.stone500,
+    primary: palette.textLight.primary, // #2D2420
+    secondary: palette.textLight.secondary, // #5C4D45
     tertiary: palette.stone400,
-    disabled: palette.stone300,
+    muted: palette.textLight.muted, // #8A7A70
+    disabled: palette.textLight.disabled, // #B8A8A0
     inverse: palette.cream50,
     brand: palette.terracotta600,
     accent: palette.teal600,
@@ -155,14 +190,35 @@ export const colors = {
     linkHover: palette.teal700,
   },
 
-  // Border
+  // Energy/Accent colors (Terracotta primary accent)
+  energy: {
+    primary: palette.terracotta500, // #C4756A
+    dim: 'rgba(196, 117, 106, 0.25)',
+    glow: 'rgba(196, 117, 106, 0.15)',
+    subtle: 'rgba(196, 117, 106, 0.08)',
+  },
+
+  // Teal semantic colors (secondary accent)
+  teal: {
+    primary: palette.teal500, // #5A9A9A
+    dim: 'rgba(90, 154, 154, 0.25)',
+    glow: 'rgba(90, 154, 154, 0.15)',
+    subtle: 'rgba(90, 154, 154, 0.08)',
+  },
+
+  // Border (neumorphic design system)
   border: {
+    // Legacy mappings
     primary: palette.stone200,
     secondary: palette.stone300,
     focus: palette.teal500,
     error: palette.brick500,
     success: palette.sage500,
     input: palette.stone300,
+    // Neumorphic border tokens
+    subtle: 'rgba(255, 255, 255, 0.6)',
+    default: 'rgba(45, 36, 32, 0.08)',
+    strong: 'rgba(45, 36, 32, 0.15)',
   },
 
   // Icon
@@ -176,18 +232,18 @@ export const colors = {
     accent: palette.teal500,
   },
 
-  // Feedback / Status
+  // Feedback / Status (semantic colors)
   feedback: {
-    success: palette.sage600,
-    successLight: palette.sage50,
+    success: palette.teal500, // #5A9A9A - Using teal for success
+    successLight: palette.teal50,
     successForeground: palette.white,
-    warning: palette.amber500,
+    warning: palette.amber500, // #D4A574
     warningLight: palette.amber50,
     warningForeground: palette.amber900,
-    error: palette.brick500,
-    errorLight: palette.brick50,
+    error: palette.terracotta500, // #C4756A - Using terracotta for error
+    errorLight: palette.terracotta50,
     errorForeground: palette.white,
-    info: palette.teal500,
+    info: palette.teal500, // #5A9A9A
     infoLight: palette.teal50,
     infoForeground: palette.white,
   },
@@ -209,6 +265,7 @@ export const colors = {
   ring: {
     DEFAULT: palette.teal500,
     offset: palette.cream100,
+    terracotta: 'rgba(196, 117, 106, 0.5)',
   },
 
   // Utility
@@ -225,12 +282,12 @@ export const colors = {
 export const colorsDark = {
   // Brand - Primary (Terracotta - lighter for dark mode)
   brand: {
-    primary: palette.terracotta400,
+    primary: palette.terracotta400, // #D4856A
     primaryHover: palette.terracotta300,
     primaryActive: palette.terracotta200,
     primaryForeground: palette.stone900,
     // Secondary (Teal)
-    secondary: palette.teal400,
+    secondary: palette.teal400, // #6AACAC
     secondaryHover: palette.teal300,
     secondaryActive: palette.teal200,
     secondaryForeground: palette.stone900,
@@ -244,11 +301,13 @@ export const colorsDark = {
     foreground: palette.stone900,
     muted: palette.teal900,
     mutedForeground: palette.teal200,
+    // Terracotta accent alias
+    terracotta: palette.terracotta400,
   },
 
-  // Background
+  // Background (neumorphic-friendly)
   background: {
-    primary: palette.stone900,
+    primary: palette.stone900, // #1C1917 warm black
     secondary: palette.stone800,
     tertiary: palette.stone700,
     inverse: palette.cream100,
@@ -256,21 +315,27 @@ export const colorsDark = {
     accent: palette.teal600,
   },
 
-  // Surface
+  // Surface (neumorphic surfaces)
   surface: {
+    // Legacy mappings
     primary: palette.stone800,
     secondary: palette.stone700,
     elevated: palette.stone700,
-    overlay: 'rgba(0, 0, 0, 0.7)',
+    overlay: 'rgba(0, 0, 0, 0.5)',
     muted: palette.stone800,
+    // Neumorphic surface tokens
+    base: palette.stone900, // #1C1917 - Default surface
+    raised: palette.stone800, // #292524 - Elevated elements
+    cut: '#1A1816', // Inset/pressed surfaces (darker than base)
   },
 
-  // Text
+  // Text (neumorphic design system)
   text: {
-    primary: palette.stone50,
-    secondary: palette.stone300,
+    primary: palette.textDark.primary, // #FAF5F0
+    secondary: palette.textDark.secondary, // #C4B8B0
     tertiary: palette.stone400,
-    disabled: palette.stone500,
+    muted: palette.textDark.muted, // #9A8A80
+    disabled: palette.textDark.disabled, // #5A4A40
     inverse: palette.stone800,
     brand: palette.terracotta300,
     accent: palette.teal300,
@@ -278,14 +343,35 @@ export const colorsDark = {
     linkHover: palette.teal200,
   },
 
-  // Border
+  // Energy/Accent colors (Terracotta primary accent - dark mode)
+  energy: {
+    primary: palette.terracotta400, // #D4856A
+    dim: 'rgba(212, 133, 106, 0.3)',
+    glow: 'rgba(212, 133, 106, 0.2)',
+    subtle: 'rgba(212, 133, 106, 0.1)',
+  },
+
+  // Teal semantic colors (secondary accent - dark mode)
+  teal: {
+    primary: palette.teal400, // #6AACAC
+    dim: 'rgba(106, 172, 172, 0.3)',
+    glow: 'rgba(106, 172, 172, 0.2)',
+    subtle: 'rgba(106, 172, 172, 0.1)',
+  },
+
+  // Border (neumorphic design system - dark mode)
   border: {
+    // Legacy mappings
     primary: palette.stone700,
     secondary: palette.stone600,
     focus: palette.teal400,
     error: palette.brick400,
     success: palette.sage400,
     input: palette.stone600,
+    // Neumorphic border tokens
+    subtle: 'rgba(212, 133, 106, 0.1)',
+    default: 'rgba(212, 133, 106, 0.2)',
+    strong: 'rgba(212, 133, 106, 0.35)',
   },
 
   // Icon
@@ -299,18 +385,18 @@ export const colorsDark = {
     accent: palette.teal400,
   },
 
-  // Feedback
+  // Feedback (semantic colors - dark mode)
   feedback: {
-    success: palette.sage400,
-    successLight: palette.sage900,
+    success: palette.teal400, // #6AACAC
+    successLight: palette.teal900,
     successForeground: palette.stone900,
-    warning: palette.amber400,
+    warning: palette.amber400, // #E4B584
     warningLight: palette.amber900,
     warningForeground: palette.stone900,
-    error: palette.brick400,
-    errorLight: palette.brick900,
+    error: palette.terracotta400, // #D4856A
+    errorLight: palette.terracotta900,
     errorForeground: palette.stone900,
-    info: palette.teal400,
+    info: palette.teal400, // #6AACAC
     infoLight: palette.teal900,
     infoForeground: palette.stone900,
   },
@@ -332,6 +418,7 @@ export const colorsDark = {
   ring: {
     DEFAULT: palette.teal400,
     offset: palette.stone900,
+    terracotta: 'rgba(212, 133, 106, 0.5)',
   },
 
   // Utility
