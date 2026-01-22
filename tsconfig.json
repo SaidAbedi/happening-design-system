@@ -2,7 +2,8 @@
   "compilerOptions": {
     /* Language and Environment */
     "target": "ES2020",
-    "lib": ["ES2020"],
+    "lib": ["ES2020", "DOM"],
+    "jsx": "react-jsx",
     "moduleDetection": "force",
 
     /* Modules */
@@ -50,6 +51,6 @@
       "@my-scope/design-system/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "dist"]
 }

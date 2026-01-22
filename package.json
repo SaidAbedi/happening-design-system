@@ -52,6 +52,16 @@
         "types": "./dist/native/index.d.cts",
         "default": "./dist/native/index.cjs"
       }
+    },
+    "./components": {
+      "import": {
+        "types": "./dist/components/index.d.ts",
+        "default": "./dist/components/index.js"
+      },
+      "require": {
+        "types": "./dist/components/index.d.cts",
+        "default": "./dist/components/index.cjs"
+      }
     }
   },
   "typesVersions": {
@@ -64,6 +74,9 @@
       ],
       "native": [
         "./dist/native/index.d.ts"
+      ],
+      "components": [
+        "./dist/components/index.d.ts"
       ]
     }
   },
@@ -78,10 +91,22 @@
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
-    "prepublishOnly": "npm run clean && npm run build"
+    "prepublishOnly": "npm run clean && npm run build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^8.6.15",
+    "@storybook/addon-interactions": "^8.6.15",
+    "@storybook/addon-onboarding": "^8.6.15",
+    "@storybook/blocks": "^8.6.15",
+    "@storybook/react": "^8.6.15",
+    "@storybook/react-vite": "^8.6.15",
+    "@storybook/test": "^8.6.15",
     "@types/node": "^20.10.0",
+    "@types/react": "^19.2.9",
+    "@types/react-dom": "^19.2.3",
+    "storybook": "^8.6.15",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
   },

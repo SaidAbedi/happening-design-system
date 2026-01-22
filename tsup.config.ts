@@ -7,6 +7,7 @@ export default defineConfig({
     'tokens/index': 'src/tokens/index.ts',
     'web/index': 'src/web/index.ts',
     'native/index': 'src/native/index.ts',
+    'components/index': 'src/components/index.ts',
   },
 
   // Output formats
