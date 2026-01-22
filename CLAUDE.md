@@ -1,6 +1,6 @@
 # Design System - @saidabedi/design-system
 
-A neumorphic design system with Mediterranean warmth (Terracotta + Teal palette).
+A neumorphic design system for React Native with Mediterranean warmth (Terracotta + Teal palette).
 
 ## Installation
 
@@ -8,127 +8,55 @@ A neumorphic design system with Mediterranean warmth (Terracotta + Teal palette)
 npm install @saidabedi/design-system
 ```
 
-## Imports
+## Usage (React Native)
 
 ```tsx
-// Tokens
-import { colors, colorsDark, spacing, shadows, typography } from '@saidabedi/design-system/tokens'
+import { colors, colorsDark, shadowsLight, shadowsDark, spacing, radii } from '@saidabedi/design-system/tokens'
+import { Ionicons } from '@expo/vector-icons'
 
-// Components
-import { Button, Card, Icon } from '@saidabedi/design-system/components'
-
-// Web theme adapter
-import { createWebTheme } from '@saidabedi/design-system/web'
+// Theme-aware colors
+const c = isDark ? colorsDark : colors
+const shadows = isDark ? shadowsDark : shadowsLight
 ```
 
 ---
 
-## Platform Support
+## Common Patterns
 
-| Module | Web | React Native |
-|--------|-----|--------------|
-| **Tokens** (colors, spacing, shadows, typography) | ✅ | ✅ |
-| **Components** (Button, Card, Icon, NeumorphicIcon) | ✅ | ❌ (uses SVG/HTML) |
+### Selected vs Unselected States
 
-**For React Native:** Use tokens with native components:
 ```tsx
-import { colors, colorsDark, shadowsLight, shadowsDark, spacing } from '@saidabedi/design-system/tokens'
-import { Ionicons } from '@expo/vector-icons'
-// Use your own NeumorphicView component for cards
+// Selected: cut surface + filled icon
+<NeumorphicView variant="cut">
+  <Ionicons name="calendar" size={24} color={c.brand.primary} />
+</NeumorphicView>
 
-const c = isDark ? colorsDark : colors
-const shadows = isDark ? shadowsDark : shadowsLight
-
-// Apply tokens to native components
-<NeumorphicView variant={isSelected ? "cut" : "raised"}>
-  <Ionicons name="calendar-outline" size={24} color={c.brand.primary} />
+// Unselected: raised surface + outline icon
+<NeumorphicView variant="raised">
+  <Ionicons name="calendar-outline" size={24} color={c.icon.secondary} />
 </NeumorphicView>
 ```
 
----
-
-## Components (Web Only)
-
-### Button
+### Event Card Example
 
 ```tsx
-<Button variant="primary" size="md" mode="light">Click me</Button>
+<NeumorphicView
+  variant={isSelected ? "cut" : "raised"}
+  style={{
+    backgroundColor: isSelected ? c.surface.cut : c.surface.raised,
+    padding: spacing['2xl'],
+    borderRadius: radii['2xl'],
+  }}
+  onPress={() => selectEvent(event.id)}
+>
+  <Ionicons
+    name={isSelected ? "calendar" : "calendar-outline"}
+    size={24}
+    color={isSelected ? c.brand.primary : c.icon.secondary}
+  />
+  <Text style={{ color: c.text.primary }}>{event.title}</Text>
+</NeumorphicView>
 ```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'primary'` \| `'secondary'` \| `'ghost'` \| `'outline'` | `'primary'` | Visual style |
-| `size` | `'sm'` \| `'md'` \| `'lg'` | `'md'` | Button size |
-| `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
-| `disabled` | `boolean` | `false` | Disabled state |
-
-### Card
-
-```tsx
-<Card variant="raised" size="md" interactive mode="light">
-  Content here
-</Card>
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'raised'` \| `'flat'` \| `'cut'` \| `'bordered'` | `'raised'` | Visual style |
-| `size` | `'sm'` \| `'md'` \| `'lg'` | `'md'` | Padding size (24px/32px/48px) |
-| `interactive` | `boolean` | `false` | Enable hover/press states |
-| `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
-
-### Icon
-
-```tsx
-<Icon name="calendar" size="lg" color="#C4756A" mode="light" />
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `IconName` | required | Icon name |
-| `size` | `'sm'` \| `'md'` \| `'lg'` \| `'xl'` \| `number` | `'md'` | Size (16/20/24/32px) |
-| `color` | `string` | token `icon.primary` | Icon color (solid) |
-| `gradient` | `IconGradientName` \| `{start, end}` | - | Gradient fill |
-| `gradientMode` | `'fill'` \| `'stroke'` \| `'both'` | `'both'` | How gradient applies |
-| `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
-
-**Available icons:** `calendar`, `search`, `heart`, `heart-outline`, `close-circle`, `sunny`, `moon`, `phone-portrait`, `options`
-
-**Gradient presets:** `terracotta`, `teal`, `heart`, `success`, `warning`, `sunset`, `ocean`, `brand`
-
-```tsx
-// Solid color
-<Icon name="heart" color="#C4756A" />
-
-// Gradient fill (preset)
-<Icon name="heart" gradient="heart" size="xl" />
-
-// Gradient stroke only (border)
-<Icon name="heart" gradient="terracotta" gradientMode="stroke" size="xl" />
-
-// Custom gradient
-<Icon name="sunny" gradient={{ start: '#FFD700', end: '#FFA500' }} />
-```
-
-### NeumorphicIcon
-
-Icons with 3D neumorphic depth - raised or cut into the surface.
-
-```tsx
-<NeumorphicIcon name="heart" variant="raised" size="xl" shape="circle" />
-<NeumorphicIcon name="search" variant="cut" interactive onClick={handleClick} />
-```
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `IconName` | required | Icon name |
-| `size` | `'sm'` \| `'md'` \| `'lg'` \| `'xl'` \| `number` | `'lg'` | Icon size |
-| `containerSize` | `number` | auto | Override container size |
-| `variant` | `'raised'` \| `'cut'` \| `'flat'` | `'raised'` | Neumorphic style |
-| `shape` | `'circle'` \| `'rounded'` \| `'square'` | `'rounded'` | Container shape |
-| `interactive` | `boolean` | `false` | Enable hover/press states |
-| `color` | `string` | token-based | Icon color |
-| `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
 
 ---
 
@@ -136,149 +64,155 @@ Icons with 3D neumorphic depth - raised or cut into the surface.
 
 ### Colors
 
-**Light mode:** `colors`
-**Dark mode:** `colorsDark`
+**Light mode:** `colors` | **Dark mode:** `colorsDark`
 
 ```tsx
 // Brand
-colors.brand.primary          // #C4756A (terracotta)
-colors.brand.secondary        // #5A9A9A (teal)
+c.brand.primary          // #C4756A (terracotta)
+c.brand.secondary        // #5A9A9A (teal)
+
+// Surfaces (for neumorphic cards)
+c.surface.raised         // #FFFFFF (light) / #292524 (dark) - floating
+c.surface.base           // #FDF8F4 (light) / #1C1917 (dark) - default
+c.surface.cut            // #F5EDE5 (light) / #1A1816 (dark) - pressed/inset
 
 // Backgrounds
-colors.background.primary     // #FDF8F4 (warm cream)
-colors.surface.raised         // #FFFFFF
-colors.surface.base           // #FDF8F4
-colors.surface.cut            // #F5EDE5 (inset surfaces)
+c.background.primary     // #FDF8F4 (light) / #1C1917 (dark)
 
 // Text
-colors.text.primary           // #2D2420
-colors.text.secondary         // #5C4D45
-colors.text.muted             // #8A7A70
+c.text.primary           // #2D2420 (light) / #FAF5F0 (dark)
+c.text.secondary         // #5C4D45 (light) / #C4B8B0 (dark)
+c.text.muted             // #8A7A70 (light) / #9A8A80 (dark)
+
+// Icons
+c.icon.primary           // Main icon color
+c.icon.secondary         // Muted icon color
+c.icon.brand             // Terracotta icon
 
 // Feedback
-colors.feedback.success       // #5A9A9A (teal)
-colors.feedback.error         // #C4756A (terracotta)
-colors.feedback.warning       // #D4A574
+c.feedback.success       // #5A9A9A (teal)
+c.feedback.error         // #C4756A (terracotta)
+c.feedback.warning       // #D4A574 (amber)
 
 // Interactive
-colors.interactive.primary    // #C4756A
-colors.interactive.primaryHover // #A65A50
+c.interactive.primary       // #C4756A
+c.interactive.primaryHover  // #A65A50
+c.interactive.primaryActive // #8A4A42
 ```
 
 ### Spacing
 
 ```tsx
-spacing.xs    // 4px
-spacing.sm    // 8px
-spacing.md    // 12px
-spacing.lg    // 16px
-spacing.xl    // 20px
-spacing['2xl'] // 24px
-spacing['3xl'] // 32px (card padding)
-spacing['4xl'] // 40px
-spacing['5xl'] // 48px
-```
-
-### Typography
-
-```tsx
-// Font families
-fontFamilies.sans   // "DM Sans", system fallbacks
-fontFamilies.serif  // "DM Serif Display", system fallbacks
-fontFamilies.mono   // "JetBrains Mono", system fallbacks
-
-// Text styles (pre-composed)
-textStyles.display.hero     // 96px serif
-textStyles.heading.h1       // 36px serif
-textStyles.heading.h4       // 20px sans medium
-textStyles.body.medium      // 16px sans
-textStyles.label.medium     // 14px sans medium
-textStyles.caption.medium   // 12px sans
-```
-
-### Shadows (Neumorphic)
-
-```tsx
-// Light mode
-shadowsLight.sm       // Small raised (buttons)
-shadowsLight.md       // Medium raised (cards)
-shadowsLight.cut      // Shallow inset
-shadowsLight.pressed  // Pressed state
-shadowsLight.glow     // Terracotta glow (hover)
-shadowsLight.glowTeal // Teal glow
-
-// Dark mode
-shadowsDark.sm
-shadowsDark.md
-// ... same structure
+spacing.xs     // 4
+spacing.sm     // 8
+spacing.md     // 12
+spacing.lg     // 16
+spacing.xl     // 20
+spacing['2xl'] // 24
+spacing['3xl'] // 32
+spacing['4xl'] // 40
+spacing['5xl'] // 48
 ```
 
 ### Border Radius
 
 ```tsx
-radii.sm      // 4px
-radii.md      // 6px
-radii.lg      // 8px
-radii.xl      // 12px
-radii['2xl']  // 16px
-radii['3xl']  // 24px
-radii.full    // 9999px
+radii.sm      // 4
+radii.md      // 6
+radii.lg      // 8
+radii.xl      // 12
+radii['2xl']  // 16
+radii['3xl']  // 24
+radii.full    // 9999
+```
+
+### Typography
+
+```tsx
+// Font families (load these fonts in your app)
+fontFamilies.sans   // "DM Sans"
+fontFamilies.serif  // "DM Serif Display"
+fontFamilies.mono   // "JetBrains Mono"
+
+// Pre-composed text styles
+textStyles.display.hero     // { fontSize: 96, fontFamily: serif }
+textStyles.heading.h1       // { fontSize: 36, fontFamily: serif }
+textStyles.heading.h4       // { fontSize: 20, fontFamily: sans, fontWeight: 500 }
+textStyles.body.medium      // { fontSize: 16, fontFamily: sans }
+textStyles.label.medium     // { fontSize: 14, fontFamily: sans, fontWeight: 500 }
+textStyles.caption.medium   // { fontSize: 12, fontFamily: sans }
+```
+
+### Shadows (Neumorphic)
+
+For React Native, use these with `react-native-shadow-2` or similar:
+
+```tsx
+// Light mode
+shadowsLight.sm       // Small raised (buttons)
+shadowsLight.md       // Medium raised (cards)
+shadowsLight.cut      // Inset shadow (selected/pressed)
+shadowsLight.pressed  // Pressed state
+shadowsLight.glow     // Terracotta glow
+
+// Dark mode - same structure
+shadowsDark.sm
+shadowsDark.md
+shadowsDark.cut
+shadowsDark.pressed
+shadowsDark.glow
 ```
 
 ### Motion
 
 ```tsx
-durations.fast    // 150ms (micro-interactions)
-durations.normal  // 200ms (standard)
-durations.slow    // 300ms (emphasis)
+durations.fast    // 150 (micro-interactions)
+durations.normal  // 200 (standard)
+durations.slow    // 300 (emphasis)
 
-easings.default   // cubic-bezier(0.22, 1, 0.36, 1)
-easings.out       // cubic-bezier(0, 0, 0.2, 1)
-easings.bounce    // cubic-bezier(0.34, 1.56, 0.64, 1)
+easings.default   // Easing.bezier(0.22, 1, 0.36, 1)
+easings.out       // Easing.bezier(0, 0, 0.2, 1)
+easings.bounce    // Easing.bezier(0.34, 1.56, 0.64, 1)
 ```
 
 ---
 
-## Neumorphic Patterns
+## Neumorphic View Pattern
 
-### Raised Surface
-```tsx
-style={{
-  backgroundColor: colors.surface.raised,
-  boxShadow: shadowsLight.md,
-  borderRadius: radii['2xl'],
-}}
-```
+Your `NeumorphicView` component should support these variants:
 
-### Inset/Cut Surface
-```tsx
-style={{
-  backgroundColor: colors.surface.base,
-  boxShadow: shadowsLight.cut,
-  borderRadius: radii.xl,
-}}
-```
-
-### Interactive Button States
-```tsx
-// Default
-boxShadow: shadowsLight.sm
-
-// Hover
-boxShadow: shadowsLight.glow
-
-// Pressed
-boxShadow: shadowsLight.pressed
-```
+| Variant | Background | Shadow | Use Case |
+|---------|------------|--------|----------|
+| `raised` | `c.surface.raised` | `shadows.sm` or `shadows.md` | Default cards, unselected items |
+| `cut` | `c.surface.cut` | `shadows.cut` (inset) | Selected items, pressed states |
+| `flat` | `c.surface.base` | none or subtle border | Neutral containers |
 
 ---
 
 ## Dark Mode
 
-Always use the `mode` prop or switch between `colors`/`colorsDark` and `shadowsLight`/`shadowsDark`:
+Always switch between light/dark tokens based on theme:
 
 ```tsx
-const c = mode === 'light' ? colors : colorsDark;
-const shadows = mode === 'light' ? shadowsLight : shadowsDark;
-const bgColor = mode === 'light' ? '#FDF8F4' : '#1C1917';
+const { colorScheme } = useColorScheme() // or your theme hook
+const isDark = colorScheme === 'dark'
+
+const c = isDark ? colorsDark : colors
+const shadows = isDark ? shadowsDark : shadowsLight
+const bgColor = isDark ? '#1C1917' : '#FDF8F4'
 ```
+
+---
+
+## Icon Mapping (Ionicons)
+
+| Design System | Ionicons (outline) | Ionicons (filled) |
+|---------------|-------------------|-------------------|
+| calendar | calendar-outline | calendar |
+| search | search-outline | search |
+| heart | heart-outline | heart |
+| close-circle | close-circle-outline | close-circle |
+| sunny | sunny-outline | sunny |
+| moon | moon-outline | moon |
+| phone-portrait | phone-portrait-outline | phone-portrait |
+| options | options-outline | options |
