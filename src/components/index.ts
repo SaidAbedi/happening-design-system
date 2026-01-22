@@ -14,6 +14,9 @@ export {
   type IconProps,
   type IconName,
   type IconSize,
+  type IconGradient,
+  type IconGradientName,
+  iconGradients,
   // Individual icons
   CalendarIcon,
   SearchIcon,

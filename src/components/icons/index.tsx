@@ -2,28 +2,44 @@ import {
   type IconProps,
   type IconName,
   type IconSize,
+  type IconGradient,
+  type IconGradientName,
   getIconSize,
   getIconColor,
+  getGradientDef,
+  iconGradients,
 } from './Icon';
+import { iconComponents } from './icons';
 
 // Re-export utilities
-export { getIconSize, getIconColor };
-import { iconComponents } from './icons';
+export { getIconSize, getIconColor, getGradientDef, iconGradients };
+
+// Generate unique gradient ID for each icon instance
+let gradientIdCounter = 0;
+const getUniqueGradientId = () => `iconGradient_${++gradientIdCounter}`;
 
 /**
  * Unified Icon component
  *
  * @example
  * ```tsx
+ * // Solid color
  * <Icon name="calendar" size="md" />
  * <Icon name="heart" color="#C4756A" />
- * <Icon name="search" size={24} mode="dark" />
+ *
+ * // Gradient fill (preset)
+ * <Icon name="heart" gradient="heart" size="xl" />
+ * <Icon name="search" gradient="teal" />
+ *
+ * // Gradient fill (custom)
+ * <Icon name="sunny" gradient={{ start: '#FFD700', end: '#FFA500' }} />
  * ```
  */
 export const Icon = ({
   name,
   size = 'md',
   color,
+  gradient,
   mode = 'light',
   className,
   accessibilityLabel,
@@ -31,11 +47,15 @@ export const Icon = ({
   const IconComponent = iconComponents[name];
   const resolvedSize = getIconSize(size);
   const resolvedColor = getIconColor(color, mode);
+  const resolvedGradient = gradient ? getGradientDef(gradient) : undefined;
+  const gradientId = resolvedGradient ? getUniqueGradientId() : undefined;
 
   return (
     <IconComponent
       size={resolvedSize}
       color={resolvedColor}
+      gradient={resolvedGradient}
+      gradientId={gradientId}
       className={className}
       accessibilityLabel={accessibilityLabel || name}
     />
@@ -43,7 +63,7 @@ export const Icon = ({
 };
 
 // Re-export types
-export type { IconProps, IconName, IconSize };
+export type { IconProps, IconName, IconSize, IconGradient, IconGradientName };
 
 // Re-export individual icon components for direct use
 export {

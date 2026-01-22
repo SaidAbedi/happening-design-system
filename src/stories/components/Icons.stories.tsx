@@ -102,7 +102,7 @@ const IconShowcase = ({ mode }: { mode: 'light' | 'dark' }) => {
 
       <section style={{ marginBottom: '48px' }}>
         <h3 style={{ color: textColor, marginBottom: '24px', fontFamily: fontFamilies.sans, opacity: 0.7 }}>
-          Colors
+          Solid Colors
         </h3>
         <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
@@ -125,6 +125,63 @@ const IconShowcase = ({ mode }: { mode: 'light' | 'dark' }) => {
             <Icon name="heart" size="xl" color={c.feedback.success} mode={mode} />
             <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>Success</span>
           </div>
+        </div>
+      </section>
+
+      <section style={{ marginBottom: '48px' }}>
+        <h3 style={{ color: textColor, marginBottom: '24px', fontFamily: fontFamilies.sans, opacity: 0.7 }}>
+          Gradient Colors
+        </h3>
+        <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="heart" size={48} gradient="heart" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>heart</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="heart" size={48} gradient="terracotta" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>terracotta</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="heart" size={48} gradient="teal" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>teal</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="heart" size={48} gradient="success" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>success</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="heart" size={48} gradient="warning" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>warning</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="heart" size={48} gradient="sunset" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>sunset</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="heart" size={48} gradient="ocean" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>ocean</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing.sm }}>
+            <Icon name="heart" size={48} gradient="brand" mode={mode} />
+            <span style={{ ...textStyles.caption.medium, color: c.text.secondary }}>brand</span>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ marginBottom: '48px' }}>
+        <h3 style={{ color: textColor, marginBottom: '24px', fontFamily: fontFamilies.sans, opacity: 0.7 }}>
+          All Icons with Gradients
+        </h3>
+        <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+          <Icon name="calendar" size="xl" gradient="terracotta" mode={mode} />
+          <Icon name="search" size="xl" gradient="teal" mode={mode} />
+          <Icon name="heart" size="xl" gradient="heart" mode={mode} />
+          <Icon name="heart-outline" size="xl" gradient="sunset" mode={mode} />
+          <Icon name="close-circle" size="xl" gradient="terracotta" mode={mode} />
+          <Icon name="sunny" size="xl" gradient="warning" mode={mode} />
+          <Icon name="moon" size="xl" gradient="ocean" mode={mode} />
+          <Icon name="phone-portrait" size="xl" gradient="brand" mode={mode} />
+          <Icon name="options" size="xl" gradient="teal" mode={mode} />
         </div>
       </section>
 

@@ -66,6 +66,7 @@ export {
   accentGradients,
   radialGradients,
   dividerGradients,
+  iconGradients,
   type GradientsLight,
   type GradientsDark,
   type MeshGradients,
@@ -73,6 +74,7 @@ export {
   type AccentGradients,
   type RadialGradients,
   type DividerGradients,
+  type IconGradients,
 } from './gradients';
 
 // Motion & Animation

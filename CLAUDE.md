@@ -63,10 +63,24 @@ import { createWebTheme } from '@saidabedi/design-system/web'
 |------|------|---------|-------------|
 | `name` | `IconName` | required | Icon name |
 | `size` | `'sm'` \| `'md'` \| `'lg'` \| `'xl'` \| `number` | `'md'` | Size (16/20/24/32px) |
-| `color` | `string` | token `icon.primary` | Icon color |
+| `color` | `string` | token `icon.primary` | Icon color (solid) |
+| `gradient` | `IconGradientName` \| `{start, end}` | - | Gradient fill |
 | `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
 
 **Available icons:** `calendar`, `search`, `heart`, `heart-outline`, `close-circle`, `sunny`, `moon`, `phone-portrait`, `options`
+
+**Gradient presets:** `terracotta`, `teal`, `heart`, `success`, `warning`, `sunset`, `ocean`, `brand`
+
+```tsx
+// Solid color
+<Icon name="heart" color="#C4756A" />
+
+// Gradient fill (preset)
+<Icon name="heart" gradient="heart" size="xl" />
+
+// Custom gradient
+<Icon name="sunny" gradient={{ start: '#FFD700', end: '#FFA500' }} />
+```
 
 ### NeumorphicIcon
 

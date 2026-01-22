@@ -292,6 +292,76 @@ export const dividerGradients = {
   },
 } as const;
 
+/**
+ * Icon gradients for colorful icon fills
+ * Each gradient has start/end colors for SVG linearGradient
+ */
+export const iconGradients = {
+  // Terracotta/red gradient
+  terracotta: {
+    start: '#E4948A',
+    end: '#C4756A',
+    angle: 135,
+    css: 'linear-gradient(135deg, #E4948A 0%, #C4756A 100%)',
+  },
+
+  // Teal/green gradient
+  teal: {
+    start: '#7ABCBC',
+    end: '#5A9A9A',
+    angle: 135,
+    css: 'linear-gradient(135deg, #7ABCBC 0%, #5A9A9A 100%)',
+  },
+
+  // Heart/love red gradient
+  heart: {
+    start: '#F5A8A1',
+    end: '#E87E74',
+    angle: 135,
+    css: 'linear-gradient(135deg, #F5A8A1 0%, #E87E74 100%)',
+  },
+
+  // Success green gradient
+  success: {
+    start: '#8EBABA',
+    end: '#6AACAC',
+    angle: 135,
+    css: 'linear-gradient(135deg, #8EBABA 0%, #6AACAC 100%)',
+  },
+
+  // Warning amber gradient
+  warning: {
+    start: '#F5D4A4',
+    end: '#E4B584',
+    angle: 135,
+    css: 'linear-gradient(135deg, #F5D4A4 0%, #E4B584 100%)',
+  },
+
+  // Sunset gradient (terracotta to amber)
+  sunset: {
+    start: '#E4948A',
+    end: '#E4B584',
+    angle: 135,
+    css: 'linear-gradient(135deg, #E4948A 0%, #E4B584 100%)',
+  },
+
+  // Ocean gradient (teal variations)
+  ocean: {
+    start: '#8EBABA',
+    end: '#5A9A9A',
+    angle: 180,
+    css: 'linear-gradient(180deg, #8EBABA 0%, #5A9A9A 100%)',
+  },
+
+  // Primary brand gradient
+  brand: {
+    start: '#D4856A',
+    end: '#A65A50',
+    angle: 135,
+    css: 'linear-gradient(135deg, #D4856A 0%, #A65A50 100%)',
+  },
+} as const;
+
 export type GradientsLight = typeof gradientsLight;
 export type GradientsDark = typeof gradientsDark;
 export type MeshGradients = typeof meshGradients;
@@ -299,3 +369,4 @@ export type Overlays = typeof overlays;
 export type AccentGradients = typeof accentGradients;
 export type RadialGradients = typeof radialGradients;
 export type DividerGradients = typeof dividerGradients;
+export type IconGradients = typeof iconGradients;
