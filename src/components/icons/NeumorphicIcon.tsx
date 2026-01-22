@@ -64,6 +64,7 @@ export const NeumorphicIcon = ({
   const shadows = mode === 'light' ? shadowsLight : shadowsDark;
   const bgBase = mode === 'light' ? colors.surface.base : colorsDark.surface.base;
   const bgRaised = mode === 'light' ? colors.surface.raised : colorsDark.surface.raised;
+  const bgCut = mode === 'light' ? colors.surface.cut : colorsDark.surface.cut;
 
   const iconSize = getIconSize(size);
   const padding = Math.round(iconSize * 0.5);
@@ -103,7 +104,7 @@ export const NeumorphicIcon = ({
       case 'cut':
         return {
           ...base,
-          backgroundColor: bgBase,
+          backgroundColor: bgCut,
           boxShadow: interactive
             ? (isPressed ? shadows.inset : isHovered ? shadows.cut : shadows.cut)
             : shadows.cut,
