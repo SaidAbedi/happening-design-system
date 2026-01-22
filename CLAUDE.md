@@ -23,7 +23,31 @@ import { createWebTheme } from '@saidabedi/design-system/web'
 
 ---
 
-## Components
+## Platform Support
+
+| Module | Web | React Native |
+|--------|-----|--------------|
+| **Tokens** (colors, spacing, shadows, typography) | ✅ | ✅ |
+| **Components** (Button, Card, Icon, NeumorphicIcon) | ✅ | ❌ (uses SVG/HTML) |
+
+**For React Native:** Use tokens with native components:
+```tsx
+import { colors, colorsDark, shadowsLight, shadowsDark, spacing } from '@saidabedi/design-system/tokens'
+import { Ionicons } from '@expo/vector-icons'
+// Use your own NeumorphicView component for cards
+
+const c = isDark ? colorsDark : colors
+const shadows = isDark ? shadowsDark : shadowsLight
+
+// Apply tokens to native components
+<NeumorphicView variant={isSelected ? "cut" : "raised"}>
+  <Ionicons name="calendar-outline" size={24} color={c.brand.primary} />
+</NeumorphicView>
+```
+
+---
+
+## Components (Web Only)
 
 ### Button
 
