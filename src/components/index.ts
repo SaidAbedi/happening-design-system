@@ -24,6 +24,11 @@ export {
   MoonIcon,
   PhonePortraitIcon,
   OptionsIcon,
+  // Neumorphic icon (3D depth)
+  NeumorphicIcon,
+  type NeumorphicIconProps,
+  type NeumorphicIconVariant,
+  type NeumorphicIconShape,
   // Base SVG for custom icons
   IconSvg,
   type IconSvgProps,

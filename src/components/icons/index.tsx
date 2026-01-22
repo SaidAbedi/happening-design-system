@@ -5,6 +5,9 @@ import {
   getIconSize,
   getIconColor,
 } from './Icon';
+
+// Re-export utilities
+export { getIconSize, getIconColor };
 import { iconComponents } from './icons';
 
 /**
@@ -57,5 +60,13 @@ export {
 
 // Export the base SVG component for custom icons
 export { IconSvg, type IconSvgProps } from './Icon';
+
+// Neumorphic Icon (icon with 3D depth)
+export {
+  NeumorphicIcon,
+  type NeumorphicIconProps,
+  type NeumorphicIconVariant,
+  type NeumorphicIconShape,
+} from './NeumorphicIcon';
 
 export default Icon;

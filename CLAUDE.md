@@ -68,6 +68,26 @@ import { createWebTheme } from '@saidabedi/design-system/web'
 
 **Available icons:** `calendar`, `search`, `heart`, `heart-outline`, `close-circle`, `sunny`, `moon`, `phone-portrait`, `options`
 
+### NeumorphicIcon
+
+Icons with 3D neumorphic depth - raised or cut into the surface.
+
+```tsx
+<NeumorphicIcon name="heart" variant="raised" size="xl" shape="circle" />
+<NeumorphicIcon name="search" variant="cut" interactive onClick={handleClick} />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `IconName` | required | Icon name |
+| `size` | `'sm'` \| `'md'` \| `'lg'` \| `'xl'` \| `number` | `'lg'` | Icon size |
+| `containerSize` | `number` | auto | Override container size |
+| `variant` | `'raised'` \| `'cut'` \| `'flat'` | `'raised'` | Neumorphic style |
+| `shape` | `'circle'` \| `'rounded'` \| `'square'` | `'rounded'` | Container shape |
+| `interactive` | `boolean` | `false` | Enable hover/press states |
+| `color` | `string` | token-based | Icon color |
+| `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
+
 ---
 
 ## Design Tokens
