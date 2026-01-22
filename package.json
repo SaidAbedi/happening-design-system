@@ -1,6 +1,6 @@
 {
   "name": "@saidabedi/design-system",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Platform-agnostic design tokens and theme adapters for React web and React Native",
   "author": "",
   "license": "MIT",
