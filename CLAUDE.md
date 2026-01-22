@@ -11,13 +11,115 @@ npm install @saidabedi/design-system
 ## Usage (React Native)
 
 ```tsx
-import { colors, colorsDark, shadowsLight, shadowsDark, spacing, radii } from '@saidabedi/design-system/tokens'
+// Import components and tokens from /native
+import {
+  NeumorphicView,
+  Card,
+  Button,
+  colors,
+  colorsDark,
+  spacing,
+  radii,
+} from '@saidabedi/design-system/native'
 import { Ionicons } from '@expo/vector-icons'
 
 // Theme-aware colors
 const c = isDark ? colorsDark : colors
-const shadows = isDark ? shadowsDark : shadowsLight
 ```
+
+---
+
+## Components
+
+### NeumorphicView
+
+A View with neumorphic styling. Supports raised, cut, and flat variants.
+
+```tsx
+import { NeumorphicView } from '@saidabedi/design-system/native'
+
+// Raised (default) - floating above surface
+<NeumorphicView variant="raised">
+  <Text>Floating content</Text>
+</NeumorphicView>
+
+// Cut - pressed into surface (selected state)
+<NeumorphicView variant="cut">
+  <Text>Selected item</Text>
+</NeumorphicView>
+
+// Interactive with press handling
+<NeumorphicView
+  variant={isSelected ? "cut" : "raised"}
+  onPress={() => setSelected(!isSelected)}
+  showPressedState
+>
+  <Text>Tap me</Text>
+</NeumorphicView>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'raised'` \| `'cut'` \| `'flat'` | `'raised'` | Neumorphic style |
+| `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
+| `radius` | `keyof radii` \| `number` | `'2xl'` | Border radius |
+| `showPressedState` | `boolean` | `false` | Show pressed feedback |
+| `onPress` | `() => void` | - | Press handler |
+
+### Card
+
+A NeumorphicView with padding presets.
+
+```tsx
+import { Card } from '@saidabedi/design-system/native'
+
+<Card variant="raised" size="md">
+  <Text>Card content</Text>
+</Card>
+
+// Interactive card
+<Card
+  variant={isSelected ? "cut" : "raised"}
+  interactive
+  onPress={() => selectItem()}
+>
+  <Text>Selectable card</Text>
+</Card>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'raised'` \| `'cut'` \| `'flat'` \| `'bordered'` | `'raised'` | Visual style |
+| `size` | `'sm'` \| `'md'` \| `'lg'` | `'md'` | Padding (24/32/48) |
+| `interactive` | `boolean` | `false` | Enable press states |
+| `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
+
+### Button
+
+A neumorphic button component.
+
+```tsx
+import { Button } from '@saidabedi/design-system/native'
+
+<Button variant="primary" onPress={handlePress}>
+  Click me
+</Button>
+
+<Button variant="secondary" size="lg">
+  Large secondary
+</Button>
+
+<Button variant="outline" mode="dark">
+  Outline button
+</Button>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'primary'` \| `'secondary'` \| `'ghost'` \| `'outline'` | `'primary'` | Visual style |
+| `size` | `'sm'` \| `'md'` \| `'lg'` | `'md'` | Button size |
+| `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
+| `disabled` | `boolean` | `false` | Disabled state |
 
 ---
 
@@ -40,13 +142,10 @@ const shadows = isDark ? shadowsDark : shadowsLight
 ### Event Card Example
 
 ```tsx
-<NeumorphicView
+<Card
   variant={isSelected ? "cut" : "raised"}
-  style={{
-    backgroundColor: isSelected ? c.surface.cut : c.surface.raised,
-    padding: spacing['2xl'],
-    borderRadius: radii['2xl'],
-  }}
+  interactive
+  mode={isDark ? 'dark' : 'light'}
   onPress={() => selectEvent(event.id)}
 >
   <Ionicons
@@ -55,7 +154,7 @@ const shadows = isDark ? shadowsDark : shadowsLight
     color={isSelected ? c.brand.primary : c.icon.secondary}
   />
   <Text style={{ color: c.text.primary }}>{event.title}</Text>
-</NeumorphicView>
+</Card>
 ```
 
 ---
@@ -143,24 +242,17 @@ textStyles.label.medium     // { fontSize: 14, fontFamily: sans, fontWeight: 500
 textStyles.caption.medium   // { fontSize: 12, fontFamily: sans }
 ```
 
-### Shadows (Neumorphic)
-
-For React Native, use these with `react-native-shadow-2` or similar:
+### RN Shadows
 
 ```tsx
-// Light mode
-shadowsLight.sm       // Small raised (buttons)
-shadowsLight.md       // Medium raised (cards)
-shadowsLight.cut      // Inset shadow (selected/pressed)
-shadowsLight.pressed  // Pressed state
-shadowsLight.glow     // Terracotta glow
+import { rnShadowsLight, rnShadowsDark, getShadow } from '@saidabedi/design-system/native'
 
-// Dark mode - same structure
-shadowsDark.sm
-shadowsDark.md
-shadowsDark.cut
-shadowsDark.pressed
-shadowsDark.glow
+const shadows = isDark ? rnShadowsDark : rnShadowsLight
+
+// Apply to a View
+<View style={getShadow(shadows['md'])}>
+  ...
+</View>
 ```
 
 ### Motion
@@ -177,18 +269,6 @@ easings.bounce    // Easing.bezier(0.34, 1.56, 0.64, 1)
 
 ---
 
-## Neumorphic View Pattern
-
-Your `NeumorphicView` component should support these variants:
-
-| Variant | Background | Shadow | Use Case |
-|---------|------------|--------|----------|
-| `raised` | `c.surface.raised` | `shadows.sm` or `shadows.md` | Default cards, unselected items |
-| `cut` | `c.surface.cut` | `shadows.cut` (inset) | Selected items, pressed states |
-| `flat` | `c.surface.base` | none or subtle border | Neutral containers |
-
----
-
 ## Dark Mode
 
 Always switch between light/dark tokens based on theme:
@@ -198,7 +278,6 @@ const { colorScheme } = useColorScheme() // or your theme hook
 const isDark = colorScheme === 'dark'
 
 const c = isDark ? colorsDark : colors
-const shadows = isDark ? shadowsDark : shadowsLight
 const bgColor = isDark ? '#1C1917' : '#FDF8F4'
 ```
 
