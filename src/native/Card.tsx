@@ -43,6 +43,27 @@ const paddingSizes: Record<CardSize, number> = {
  * >
  *   <Text>Tap to select</Text>
  * </Card>
+ *
+ * // With gradient accent border (terracotta → teal)
+ * import { LinearGradient } from 'expo-linear-gradient';
+ * <Card
+ *   variant="raised"
+ *   accentBorder
+ *   LinearGradient={LinearGradient}
+ * >
+ *   <Text>Card with accent border</Text>
+ * </Card>
+ *
+ * // Interactive with accent border
+ * <Card
+ *   variant={isSelected ? "cut" : "raised"}
+ *   interactive
+ *   accentBorder
+ *   LinearGradient={LinearGradient}
+ *   onPress={() => setSelected(!isSelected)}
+ * >
+ *   <Text>Tap to select</Text>
+ * </Card>
  * ```
  */
 export const Card = ({

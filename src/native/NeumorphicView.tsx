@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   View,
   Pressable,
@@ -10,6 +11,18 @@ import { radii } from '../tokens/radii';
 import { rnShadowsLight, rnShadowsDark, getShadow, type RNShadow } from './shadows';
 
 export type NeumorphicVariant = 'raised' | 'cut' | 'flat';
+
+/** Gradient border colors for neumorphic-accent variant */
+export const accentGradientColors = {
+  light: {
+    start: '#F5CFC2', // Terracotta (top-left)
+    end: '#B8D4D4',   // Teal (bottom-right)
+  },
+  dark: {
+    start: '#3D2E28', // Dark terracotta
+    end: '#233A3A',   // Dark teal
+  },
+};
 
 export interface NeumorphicViewProps extends Omit<PressableProps, 'style'> {
   /** Neumorphic style variant */
@@ -24,6 +37,27 @@ export interface NeumorphicViewProps extends Omit<PressableProps, 'style'> {
   style?: StyleProp<ViewStyle>;
   /** Children */
   children?: React.ReactNode;
+  /**
+   * Add gradient accent border (terracotta → teal).
+   * Requires LinearGradient prop to be set.
+   * Works with any variant (raised, cut, flat).
+   */
+  accentBorder?: boolean;
+  /**
+   * LinearGradient component for accent border effect.
+   * Pass expo-linear-gradient or react-native-linear-gradient.
+   * Required when accentBorder is true.
+   * @example
+   * import { LinearGradient } from 'expo-linear-gradient';
+   * <NeumorphicView variant="raised" accentBorder LinearGradient={LinearGradient} />
+   */
+  LinearGradient?: React.ComponentType<{
+    colors: string[];
+    start?: { x: number; y: number };
+    end?: { x: number; y: number };
+    style?: StyleProp<ViewStyle>;
+    children?: React.ReactNode;
+  }>;
 }
 
 /**
@@ -64,14 +98,21 @@ export const NeumorphicView = ({
   onPress,
   onPressIn,
   onPressOut,
+  accentBorder = false,
+  LinearGradient,
   ...pressableProps
 }: NeumorphicViewProps) => {
   const c = mode === 'light' ? colors : colorsDark;
   const shadows = mode === 'light' ? rnShadowsLight : rnShadowsDark;
+  const gradientColors = mode === 'light' ? accentGradientColors.light : accentGradientColors.dark;
 
   const resolvedRadius = typeof radius === 'number' ? radius : radii[radius];
+  const borderWidth = 2;
 
-  const getBackgroundColor = (v: NeumorphicVariant): string => {
+  const getBackgroundColor = (v: NeumorphicVariant, isPressed: boolean): string => {
+    if (showPressedState && isPressed) {
+      return c.surface.cut;
+    }
     switch (v) {
       case 'raised':
         return c.surface.raised;
@@ -85,17 +126,15 @@ export const NeumorphicView = ({
 
   const getVariantStyle = (v: NeumorphicVariant, isPressed: boolean): ViewStyle => {
     const base: ViewStyle = {
-      backgroundColor: getBackgroundColor(v),
+      backgroundColor: getBackgroundColor(v, isPressed),
       borderRadius: resolvedRadius,
     };
 
-    // Apply pressed state if enabled
-    if (showPressedState && isPressed) {
+    // When using accent border, don't add variant borders (gradient handles it)
+    if (accentBorder && LinearGradient) {
       return {
         ...base,
-        backgroundColor: c.surface.cut,
-        // Note: RN doesn't support inset shadows natively
-        // For true inset effect, use react-native-shadow-2
+        borderRadius: resolvedRadius - borderWidth,
       };
     }
 
@@ -126,7 +165,55 @@ export const NeumorphicView = ({
     }
   };
 
-  // If no onPress, render as View
+  // Render with gradient accent border
+  if (accentBorder && LinearGradient) {
+    const gradientStyle: ViewStyle = {
+      borderRadius: resolvedRadius,
+      padding: borderWidth,
+      ...getShadow(shadows['sm'] as RNShadow),
+    };
+
+    // Non-interactive with accent border
+    if (!onPress && !pressableProps['onLongPress']) {
+      return (
+        <LinearGradient
+          colors={[gradientColors.start, gradientColors.end]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[gradientStyle, style]}
+        >
+          <View style={getVariantStyle(variant, false)}>
+            {children}
+          </View>
+        </LinearGradient>
+      );
+    }
+
+    // Interactive with accent border
+    return (
+      <Pressable
+        onPress={onPress}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        {...pressableProps}
+      >
+        {({ pressed }: { pressed: boolean }) => (
+          <LinearGradient
+            colors={[gradientColors.start, gradientColors.end]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={[gradientStyle, style]}
+          >
+            <View style={getVariantStyle(variant, pressed)}>
+              {children}
+            </View>
+          </LinearGradient>
+        )}
+      </Pressable>
+    );
+  }
+
+  // If no onPress, render as View (no accent border)
   if (!onPress && !pressableProps['onLongPress']) {
     return (
       <View style={[getVariantStyle(variant, false), style]}>
@@ -135,7 +222,7 @@ export const NeumorphicView = ({
     );
   }
 
-  // Render as Pressable for interactive use
+  // Render as Pressable for interactive use (no accent border)
   return (
     <Pressable
       onPress={onPress}

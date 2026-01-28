@@ -99,14 +99,25 @@ const CardShowcase = ({ mode }: { mode: "light" | "dark" }) => {
             gap: "32px",
           }}
         >
-          <Card variant="neumorphic-accent" mode={mode}>
+          <Card variant="raised" mode={mode}>
             <CardHeader
-              title="Teal Card"
-              subtitle="Teal themed card"
+              title="Raised Card"
+              subtitle="Default floating style"
               mode={mode}
             />
             <CardBody mode={mode}>
-              This card appears to be made of teal with a teal themed border.
+              This card appears to float above the surface with soft shadows.
+            </CardBody>
+          </Card>
+
+          <Card variant="raised" accentBorder mode={mode}>
+            <CardHeader
+              title="Raised + Accent Border"
+              subtitle="Gradient border effect"
+              mode={mode}
+            />
+            <CardBody mode={mode}>
+              Terracotta to teal gradient border combined with raised style.
             </CardBody>
           </Card>
 
@@ -131,6 +142,7 @@ const CardShowcase = ({ mode }: { mode: "light" | "dark" }) => {
               A subtle card with just a border, no shadow elevation.
             </CardBody>
           </Card>
+
           <Card variant="cut" mode={mode}>
             <CardHeader
               title="Cut Card"
@@ -142,6 +154,18 @@ const CardShowcase = ({ mode }: { mode: "light" | "dark" }) => {
               effect.
             </CardBody>
           </Card>
+
+          <Card variant="cut" accentBorder mode={mode}>
+            <CardHeader
+              title="Cut + Accent Border"
+              subtitle="Inset with gradient border"
+              mode={mode}
+            />
+            <CardBody mode={mode}>
+              Cut style combined with terracotta to teal gradient border.
+            </CardBody>
+          </Card>
+
           <Card variant="bordered" mode={mode}>
             <CardHeader
               title="Bordered Card"
@@ -220,6 +244,17 @@ const CardShowcase = ({ mode }: { mode: "light" | "dark" }) => {
             </CardBody>
           </Card>
 
+          <Card variant="raised" interactive accentBorder mode={mode}>
+            <CardHeader
+              title="Interactive Raised + Accent"
+              subtitle="Gradient border with hover"
+              mode={mode}
+            />
+            <CardBody mode={mode}>
+              Raised card with terracotta to teal gradient border.
+            </CardBody>
+          </Card>
+
           <Card variant="cut" interactive mode={mode}>
             <CardHeader
               title="Interactive Cut"
@@ -228,6 +263,28 @@ const CardShowcase = ({ mode }: { mode: "light" | "dark" }) => {
             />
             <CardBody mode={mode}>
               This inset card gets deeper when pressed.
+            </CardBody>
+          </Card>
+
+          <Card variant="cut" interactive accentBorder mode={mode}>
+            <CardHeader
+              title="Interactive Cut + Accent"
+              subtitle="Cut style with gradient border"
+              mode={mode}
+            />
+            <CardBody mode={mode}>
+              Cut/pressed card with gradient accent border.
+            </CardBody>
+          </Card>
+
+          <Card variant="glass" interactive mode={mode}>
+            <CardHeader
+              title="Interactive Glass"
+              subtitle="Hover for glow effect"
+              mode={mode}
+            />
+            <CardBody mode={mode}>
+              Translucent card with terracotta glow on hover.
             </CardBody>
           </Card>
 
@@ -328,7 +385,10 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["raised", "flat", "cut", "bordered"],
+      options: ["raised", "flat", "cut", "bordered", "glass"],
+    },
+    accentBorder: {
+      control: "boolean",
     },
     size: {
       control: "select",
@@ -353,6 +413,7 @@ export const Playground: Story = {
     size: "md",
     mode: "light",
     interactive: false,
+    accentBorder: false,
     children: "Card content goes here",
   },
   render: (args) => (

@@ -15,9 +15,20 @@ export type CardVariant =
   | "flat"
   | "cut"
   | "bordered"
-  | "glass"
-  | "neumorphic-accent";
+  | "glass";
 export type CardSize = "sm" | "md" | "lg";
+
+/** Gradient border colors for accent border */
+export const accentGradientColors = {
+  light: {
+    start: '#F5CFC2', // Terracotta (top-left)
+    end: '#B8D4D4',   // Teal (bottom-right)
+  },
+  dark: {
+    start: '#3D2E28', // Dark terracotta
+    end: '#233A3A',   // Dark teal
+  },
+};
 
 export interface CardProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -27,8 +38,11 @@ export interface CardProps extends Omit<
   size?: CardSize;
   interactive?: boolean;
   mode?: "light" | "dark";
-  /** 'teal', 'terracotta', or 'mixed' (terracotta to teal) */
-  accent?: "teal" | "terracotta" | "mixed";
+  /**
+   * Add gradient accent border (terracotta → teal).
+   * Works with any variant (raised, cut, flat, bordered, glass).
+   */
+  accentBorder?: boolean;
   children: React.ReactNode;
 }
 
@@ -38,7 +52,7 @@ export const Card = ({
   size = "md",
   interactive = false,
   mode = "light",
-  accent = "teal",
+  accentBorder = false,
   onClick,
   ...props
 }: CardProps) => {
@@ -53,6 +67,7 @@ export const Card = ({
   const bgBase =
     mode === "light" ? colors.surface.base : colorsDark.surface.base;
   const surfaceBase = mode === "light" ? "#FDF8F4" : "#1C1917";
+  const gradientColors = mode === "light" ? accentGradientColors.light : accentGradientColors.dark;
 
   const sizeStyles: Record<CardSize, React.CSSProperties> = {
     sm: { padding: spacing["2xl"], borderRadius: radii.xl },
@@ -69,39 +84,6 @@ export const Card = ({
     };
 
     switch (variant) {
-      case "neumorphic-accent":
-        /**
-         * PRONOUNCED TERRACOTTA NEUMORPHISM
-         * Starts with a richer Terracotta top-left, blending through surfaceBase,
-         * and ending in a sharp Teal bottom-right rim.
-         */
-        const tColor = mode === "light" ? "#F5CFC2" : "#3D2E28"; // Richer Terracotta
-        const tealColor = mode === "light" ? "#B8D4D4" : "#233A3A"; // Pronounced Teal
-
-        // Gradient that peeks through the border and colors the edges
-        const fullGradient = `linear-gradient(135deg, ${tColor} 0%, ${surfaceBase} 45%, ${surfaceBase} 55%, ${tealColor} 100%)`;
-
-        return {
-          ...base,
-          // Surface is solid, Border area reveals the gradient
-          backgroundImage: `linear-gradient(${surfaceBase}, ${surfaceBase}), ${fullGradient}`,
-          backgroundOrigin: "border-box",
-          backgroundClip: "padding-box, border-box",
-          border: "2px solid transparent", // Slightly thicker for more color visibility
-
-          boxShadow: [
-            interactive && isPressed
-              ? shadows.pressed
-              : isHovered
-                ? shadows.md
-                : shadows.sm,
-            // Inner Terracotta glow (Top-Left)
-            `inset 4px 4px 12px ${tColor}${mode === "light" ? "66" : "33"}`,
-            // Inner White highlight (Specular)
-            `inset 1px 1px 2px ${mode === "light" ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.1)"}`,
-          ].join(", "),
-        };
-
       case "raised":
         return {
           ...base,
@@ -172,9 +154,23 @@ export const Card = ({
     }
   };
 
+  // Accent border gradient style (CSS gradient border technique)
+  const getAccentBorderStyle = (): React.CSSProperties => {
+    if (!accentBorder) return {};
+
+    const fullGradient = `linear-gradient(135deg, ${gradientColors.start} 0%, ${surfaceBase} 45%, ${surfaceBase} 55%, ${gradientColors.end} 100%)`;
+
+    return {
+      backgroundImage: `linear-gradient(${surfaceBase}, ${surfaceBase}), ${fullGradient}`,
+      backgroundOrigin: "border-box",
+      backgroundClip: "padding-box, border-box",
+      border: "2px solid transparent",
+    };
+  };
+
   return (
     <div
-      style={{ ...sizeStyles[size], ...getVariantStyles() }}
+      style={{ ...sizeStyles[size], ...getVariantStyles(), ...getAccentBorderStyle() }}
       onMouseEnter={() => interactive && setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -185,28 +181,6 @@ export const Card = ({
       onClick={onClick}
       {...props}
     >
-      {/* LOCALIZED GRADIENT: Only bottom-right corner */}
-      {variant === "neumorphic-accent" && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            right: 0,
-            width: "50%",
-            height: "50%",
-            // Transition from Terracotta (Bottom) to Teal (Right)
-            background: `radial-gradient(circle at bottom right, ${accent === "mixed" ? "#D4856A" : "#6AACAC"}22 0%, transparent 80%)`,
-            // If mixed, we add a second layer for the Teal side
-            backgroundImage:
-              accent === "mixed"
-                ? `radial-gradient(circle at bottom right, #6AACAC22 0%, transparent 70%), radial-gradient(circle at bottom center, #D4856A22 0%, transparent 70%)`
-                : undefined,
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        />
-      )}
-
       {variant === "raised" && isHovered && (
         <div
           style={{

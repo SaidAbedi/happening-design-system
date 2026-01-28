@@ -70,6 +70,8 @@ import { NeumorphicView } from '@saidabedi/design-system/native'
 | `radius` | `keyof radii` \| `number` | `'2xl'` | Border radius |
 | `showPressedState` | `boolean` | `false` | Show pressed feedback |
 | `onPress` | `() => void` | - | Press handler |
+| `accentBorder` | `boolean` | `false` | Add gradient border (terracotta → teal) |
+| `LinearGradient` | `Component` | - | Required for accentBorder |
 
 ### Card
 
@@ -77,15 +79,23 @@ A NeumorphicView with padding presets.
 
 ```tsx
 import { Card } from '@saidabedi/design-system/native'
+import { LinearGradient } from 'expo-linear-gradient'
 
 <Card variant="raised" size="md">
   <Text>Card content</Text>
 </Card>
 
-// Interactive card
+// With gradient accent border (terracotta → teal)
+<Card variant="raised" accentBorder LinearGradient={LinearGradient}>
+  <Text>Card with accent border</Text>
+</Card>
+
+// Interactive card with accent border
 <Card
   variant={isSelected ? "cut" : "raised"}
   interactive
+  accentBorder
+  LinearGradient={LinearGradient}
   onPress={() => selectItem()}
 >
   <Text>Selectable card</Text>
@@ -98,6 +108,8 @@ import { Card } from '@saidabedi/design-system/native'
 | `size` | `'sm'` \| `'md'` \| `'lg'` | `'md'` | Padding (24/32/48) |
 | `interactive` | `boolean` | `false` | Enable press states |
 | `mode` | `'light'` \| `'dark'` | `'light'` | Color mode |
+| `accentBorder` | `boolean` | `false` | Add gradient border (terracotta → teal) |
+| `LinearGradient` | `Component` | - | Required for accentBorder (expo-linear-gradient or react-native-linear-gradient) |
 
 ### Button
 
@@ -182,9 +194,13 @@ import { Icon } from '@saidabedi/design-system/native'
 ### Event Card Example
 
 ```tsx
+import { LinearGradient } from 'expo-linear-gradient'
+
 <Card
   variant={isSelected ? "cut" : "raised"}
   interactive
+  accentBorder
+  LinearGradient={LinearGradient}
   mode={isDark ? 'dark' : 'light'}
   onPress={() => selectEvent(event.id)}
 >

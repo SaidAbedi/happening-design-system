@@ -36,6 +36,7 @@ export {
 // Components
 export {
   NeumorphicView,
+  accentGradientColors,
   type NeumorphicViewProps,
   type NeumorphicVariant,
 } from './NeumorphicView';
