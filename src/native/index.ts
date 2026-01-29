@@ -37,6 +37,7 @@ export {
 export {
   NeumorphicView,
   accentGradientColors,
+  neumorphicShadowConfig,
   type NeumorphicViewProps,
   type NeumorphicVariant,
 } from './NeumorphicView';

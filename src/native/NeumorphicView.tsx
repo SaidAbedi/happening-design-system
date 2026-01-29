@@ -24,6 +24,38 @@ export const accentGradientColors = {
   },
 };
 
+/** Neumorphic shadow configs for react-native-shadow-2 */
+export const neumorphicShadowConfig = {
+  light: {
+    raised: {
+      distance: 6,
+      startColor: 'rgba(180, 165, 155, 0.25)',
+      finalColor: 'transparent',
+      offset: [3, 3] as [number, number],
+    },
+    cut: {
+      distance: 4,
+      startColor: 'rgba(180, 165, 155, 0.3)',
+      finalColor: 'transparent',
+      offset: [2, 2] as [number, number],
+    },
+  },
+  dark: {
+    raised: {
+      distance: 6,
+      startColor: 'rgba(0, 0, 0, 0.4)',
+      finalColor: 'transparent',
+      offset: [3, 3] as [number, number],
+    },
+    cut: {
+      distance: 4,
+      startColor: 'rgba(0, 0, 0, 0.5)',
+      finalColor: 'transparent',
+      offset: [2, 2] as [number, number],
+    },
+  },
+};
+
 export interface NeumorphicViewProps extends Omit<PressableProps, 'style'> {
   /** Neumorphic style variant */
   variant?: NeumorphicVariant;
@@ -56,6 +88,23 @@ export interface NeumorphicViewProps extends Omit<PressableProps, 'style'> {
     start?: { x: number; y: number };
     end?: { x: number; y: number };
     style?: StyleProp<ViewStyle>;
+    children?: React.ReactNode;
+  }>;
+  /**
+   * Shadow component from react-native-shadow-2 for enhanced neumorphic shadows.
+   * When provided, uses proper soft shadows instead of basic RN shadows.
+   * @example
+   * import { Shadow } from 'react-native-shadow-2';
+   * <NeumorphicView variant="raised" Shadow={Shadow} />
+   */
+  Shadow?: React.ComponentType<{
+    distance?: number;
+    startColor?: string;
+    finalColor?: string;
+    offset?: [number, number];
+    style?: StyleProp<ViewStyle>;
+    containerStyle?: StyleProp<ViewStyle>;
+    radius?: number;
     children?: React.ReactNode;
   }>;
 }
@@ -100,11 +149,13 @@ export const NeumorphicView = ({
   onPressOut,
   accentBorder = false,
   LinearGradient,
+  Shadow,
   ...pressableProps
 }: NeumorphicViewProps) => {
   const c = mode === 'light' ? colors : colorsDark;
   const shadows = mode === 'light' ? rnShadowsLight : rnShadowsDark;
   const gradientColors = mode === 'light' ? accentGradientColors.light : accentGradientColors.dark;
+  const shadowConfig = mode === 'light' ? neumorphicShadowConfig.light : neumorphicShadowConfig.dark;
 
   const resolvedRadius = typeof radius === 'number' ? radius : radii[radius];
   const borderWidth = 2;
@@ -165,17 +216,33 @@ export const NeumorphicView = ({
     }
   };
 
+  // Helper to wrap content with Shadow if provided
+  const wrapWithShadow = (content: React.ReactNode, isRaised: boolean) => {
+    if (!Shadow || !isRaised) return content;
+    const config = shadowConfig.raised;
+    return (
+      <Shadow
+        distance={config.distance}
+        startColor={config.startColor}
+        finalColor={config.finalColor}
+        offset={config.offset}
+        radius={resolvedRadius}
+      >
+        {content}
+      </Shadow>
+    );
+  };
+
   // Render with gradient accent border
   if (accentBorder && LinearGradient) {
     const gradientStyle: ViewStyle = {
       borderRadius: resolvedRadius,
       padding: borderWidth,
-      ...getShadow(shadows['sm'] as RNShadow),
     };
 
     // Non-interactive with accent border
     if (!onPress && !pressableProps['onLongPress']) {
-      return (
+      const content = (
         <LinearGradient
           colors={[gradientColors.start, gradientColors.end]}
           start={{ x: 0, y: 0 }}
@@ -187,6 +254,7 @@ export const NeumorphicView = ({
           </View>
         </LinearGradient>
       );
+      return wrapWithShadow(content, variant === 'raised');
     }
 
     // Interactive with accent border
@@ -197,29 +265,33 @@ export const NeumorphicView = ({
         onPressOut={onPressOut}
         {...pressableProps}
       >
-        {({ pressed }: { pressed: boolean }) => (
-          <LinearGradient
-            colors={[gradientColors.start, gradientColors.end]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={gradientStyle}
-          >
-            <View style={[getVariantStyle(variant, pressed), style]}>
-              {children}
-            </View>
-          </LinearGradient>
-        )}
+        {({ pressed }: { pressed: boolean }) => {
+          const content = (
+            <LinearGradient
+              colors={[gradientColors.start, gradientColors.end]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={gradientStyle}
+            >
+              <View style={[getVariantStyle(variant, pressed), style]}>
+                {children}
+              </View>
+            </LinearGradient>
+          );
+          return wrapWithShadow(content, variant === 'raised' && !pressed);
+        }}
       </Pressable>
     );
   }
 
   // If no onPress, render as View (no accent border)
   if (!onPress && !pressableProps['onLongPress']) {
-    return (
+    const content = (
       <View style={[getVariantStyle(variant, false), style]}>
         {children}
       </View>
     );
+    return wrapWithShadow(content, variant === 'raised');
   }
 
   // Render as Pressable for interactive use (no accent border)
@@ -229,12 +301,15 @@ export const NeumorphicView = ({
       onPressIn={onPressIn}
       onPressOut={onPressOut}
       {...pressableProps}
-      style={({ pressed }: { pressed: boolean }) => [
-        getVariantStyle(variant, pressed),
-        style,
-      ]}
     >
-      {children}
+      {({ pressed }: { pressed: boolean }) => {
+        const content = (
+          <View style={[getVariantStyle(variant, pressed), style]}>
+            {children}
+          </View>
+        );
+        return wrapWithShadow(content, variant === 'raised' && !pressed);
+      }}
     </Pressable>
   );
 };

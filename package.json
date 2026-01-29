@@ -115,7 +115,8 @@
   "peerDependencies": {
     "react": ">=17.0.0",
     "react-native": ">=0.70.0",
-    "react-native-svg": ">=12.0.0"
+    "react-native-svg": ">=12.0.0",
+    "react-native-shadow-2": ">=7.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -125,6 +126,9 @@
       "optional": true
     },
     "react-native-svg": {
+      "optional": true
+    },
+    "react-native-shadow-2": {
       "optional": true
     }
   },
