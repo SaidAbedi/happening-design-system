@@ -105,6 +105,7 @@ export interface NeumorphicViewProps extends Omit<PressableProps, 'style'> {
     style?: StyleProp<ViewStyle>;
     containerStyle?: StyleProp<ViewStyle>;
     radius?: number;
+    stretch?: boolean;
     children?: React.ReactNode;
   }>;
 }
@@ -227,6 +228,7 @@ export const NeumorphicView = ({
         finalColor={config.finalColor}
         offset={config.offset}
         radius={resolvedRadius}
+        stretch={true}
       >
         {content}
       </Shadow>
