@@ -180,9 +180,9 @@ export const NeumorphicView = ({
           colors={[gradientColors.start, gradientColors.end]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={[gradientStyle, style]}
+          style={gradientStyle}
         >
-          <View style={getVariantStyle(variant, false)}>
+          <View style={[getVariantStyle(variant, false), style]}>
             {children}
           </View>
         </LinearGradient>
@@ -202,9 +202,9 @@ export const NeumorphicView = ({
             colors={[gradientColors.start, gradientColors.end]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
-            style={[gradientStyle, style]}
+            style={gradientStyle}
           >
-            <View style={getVariantStyle(variant, pressed)}>
+            <View style={[getVariantStyle(variant, pressed), style]}>
               {children}
             </View>
           </LinearGradient>
